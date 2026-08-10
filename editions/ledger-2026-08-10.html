@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Cannabis Ledger — PGP Capital Advisors, Aug 10 2026</title>
+<style>
+  :root{
+    --paper:#f6f6f0; --paper-2:#efefe6; --panel:#eae9dd;
+    --ink:#16170f; --ink-soft:#474839; --ink-faint:#6d6e5d;
+    --hair:#cdcdbd; --rule:#16170f;
+    --pine:#1f4d2e; --pine-soft:#3c6b4a;
+    --gain:#1c7a48; --loss:#b0392c; --flag:#9a5b12;
+    --serif:Georgia,"Times New Roman",Times,serif;
+    --sans:"Helvetica Neue",Helvetica,Arial,sans-serif;
+    --mono:"SF Mono",ui-monospace,"Courier New",monospace;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --paper:#14150d; --paper-2:#1b1c12; --panel:#202115;
+      --ink:#ecece0; --ink-soft:#b0b1a0; --ink-faint:#84856f;
+      --hair:#34362a; --rule:#4a4c3c;
+      --pine:#77b389; --pine-soft:#9ccaa9;
+      --gain:#54c088; --loss:#e28a79; --flag:#d0a24e;
+    }
+  }
+  :root[data-theme="dark"]{
+      --paper:#14150d; --paper-2:#1b1c12; --panel:#202115;
+      --ink:#ecece0; --ink-soft:#b0b1a0; --ink-faint:#84856f;
+      --hair:#34362a; --rule:#4a4c3c;
+      --pine:#77b389; --pine-soft:#9ccaa9;
+      --gain:#54c088; --loss:#e28a79; --flag:#d0a24e;
+  }
+  :root[data-theme="light"]{
+      --paper:#f6f6f0; --paper-2:#efefe6; --panel:#eae9dd;
+      --ink:#16170f; --ink-soft:#474839; --ink-faint:#6d6e5d;
+      --hair:#cdcdbd; --rule:#16170f;
+      --pine:#1f4d2e; --pine-soft:#3c6b4a;
+      --gain:#1c7a48; --loss:#b0392c; --flag:#9a5b12;
+  }
+
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ink);color:var(--ink)}
+  .sheet{
+    max-width:1120px;margin:0 auto;background:var(--paper);
+    padding:clamp(18px,4vw,54px) clamp(16px,4vw,56px) 40px;
+    font-family:var(--serif);line-height:1.5;
+  }
+  @media(min-width:820px){ .sheet{box-shadow:0 0 0 1px var(--hair)} }
+
+  /* ---------- Masthead ---------- */
+  .flag-top{display:flex;justify-content:space-between;align-items:center;
+    font-family:var(--sans);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--ink-soft);padding-bottom:8px;gap:12px;flex-wrap:wrap}
+  .flag-top .edt{color:var(--pine);font-weight:700}
+  .rule-2{border:0;border-top:3px double var(--rule);margin:0}
+  .rule-1{border:0;border-top:1px solid var(--rule);margin:0}
+  .hair{border:0;border-top:1px solid var(--hair);margin:0}
+  .nameplate{display:flex;align-items:center;justify-content:center;gap:18px;
+    padding:14px 0 6px;text-align:center}
+  .nameplate svg{flex:none}
+  .nameplate h1{font-size:clamp(34px,7vw,68px);line-height:.92;margin:0;
+    font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+  .nameplate .kicker{display:block;font-family:var(--sans);font-weight:700;
+    font-size:clamp(9px,1.5vw,12px);letter-spacing:.34em;color:var(--pine);
+    text-transform:uppercase;margin-bottom:6px}
+  .folio{display:flex;justify-content:space-between;align-items:center;gap:10px;
+    font-family:var(--sans);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--ink-soft);padding:7px 2px;flex-wrap:wrap}
+  .folio b{color:var(--ink)}
+
+  /* ---------- Structure ---------- */
+  section{margin-top:26px}
+  .band{font-family:var(--sans);text-transform:uppercase;letter-spacing:.18em;
+    font-size:12px;font-weight:700;color:var(--pine);
+    display:flex;align-items:center;gap:12px;margin:0 0 12px}
+  .band::after{content:"";flex:1;border-top:1px solid var(--hair)}
+  h2.hed{font-family:var(--serif);font-weight:700;text-wrap:balance;margin:0}
+  .dek{color:var(--ink-soft);font-style:italic}
+  .byline{font-family:var(--sans);font-size:10.5px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--ink-faint)}
+
+  /* ---------- Lead ---------- */
+  .lead{display:grid;grid-template-columns:1fr;gap:26px}
+  @media(min-width:860px){.lead{grid-template-columns:1.9fr 1fr;gap:34px}}
+  .lead-main h2{font-size:clamp(26px,4.4vw,42px);line-height:1.04}
+  .lead-main .sub{font-size:clamp(15px,2vw,18px);margin:.5em 0 0;color:var(--ink-soft);font-style:italic}
+  .drop::first-letter{float:left;font-size:3.6em;line-height:.72;padding:6px 10px 0 0;
+    font-weight:700;color:var(--pine)}
+  .lead-main p{margin:.85em 0}
+  .rail{border-top:2px solid var(--rule);padding-top:10px}
+  .rail h3{font-family:var(--sans);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+    margin:0 0 10px;color:var(--ink)}
+  .tape{display:flex;flex-direction:column;gap:0}
+  .tape .row{display:flex;gap:10px;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--hair);
+    font-family:var(--sans);font-size:12.5px}
+  .tape .tk{font-family:var(--mono);font-weight:700;color:var(--pine);flex:none;min-width:58px;
+    font-variant-numeric:tabular-nums}
+  .tape .st{color:var(--ink-soft)}
+  .pill{display:inline-block;font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.06em;
+    text-transform:uppercase;padding:2px 7px;border-radius:2px;border:1px solid currentColor}
+  .up{color:var(--gain)} .down{color:var(--loss)} .watch{color:var(--flag)}
+
+  .callout{background:var(--panel);border-left:3px solid var(--pine);
+    padding:12px 16px;margin:16px 0;font-size:14px}
+  .callout .lab{font-family:var(--sans);font-weight:700;font-size:10.5px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--pine);display:block;margin-bottom:4px}
+
+  /* ---------- Priority cards ---------- */
+  .cards{display:grid;grid-template-columns:1fr;gap:1px;background:var(--hair);
+    border:1px solid var(--hair)}
+  @media(min-width:760px){.cards{grid-template-columns:repeat(3,1fr)}}
+  .card{background:var(--paper);padding:16px 16px 18px}
+  .card .co{font-family:var(--serif);font-size:20px;font-weight:700;margin:0;line-height:1.1}
+  .card .tkr{font-family:var(--mono);font-size:12px;color:var(--pine);font-weight:700}
+  .card .status{font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.08em;
+    text-transform:uppercase;margin:8px 0 10px;display:inline-block}
+  .s-quiet{color:var(--ink-faint)} .s-live{color:var(--flag)}
+  .card ul{margin:6px 0 0;padding-left:16px;font-size:13px}
+  .card li{margin:6px 0}
+  .card .cal{font-family:var(--sans);font-size:11px;color:var(--ink-soft);margin-top:12px;
+    border-top:1px solid var(--hair);padding-top:8px}
+  .flagmark{color:var(--flag);font-weight:700}
+
+  /* ---------- Deal tracker ---------- */
+  .tablewrap{overflow-x:auto;border:1px solid var(--hair)}
+  table{border-collapse:collapse;width:100%;min-width:640px;font-size:13px}
+  thead th{background:var(--panel);font-family:var(--sans);font-size:10.5px;letter-spacing:.08em;
+    text-transform:uppercase;text-align:left;padding:10px 12px;border-bottom:2px solid var(--rule);color:var(--ink)}
+  tbody td{padding:11px 12px;border-bottom:1px solid var(--hair);vertical-align:top}
+  tbody tr:last-child td{border-bottom:0}
+  td .deal{font-weight:700}
+  td.date{font-family:var(--mono);font-size:12px;white-space:nowrap;color:var(--ink-soft);
+    font-variant-numeric:tabular-nums}
+  .tag{font-family:var(--sans);font-size:9.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+    padding:2px 6px;border-radius:2px;white-space:nowrap}
+  .t-close{background:rgba(28,122,72,.14);color:var(--gain)}
+  .t-ann{background:rgba(154,91,18,.16);color:var(--flag)}
+  .t-court{background:rgba(176,57,44,.14);color:var(--loss)}
+
+  /* ---------- Docket timeline ---------- */
+  .docket{display:grid;grid-template-columns:1fr;gap:22px}
+  @media(min-width:820px){.docket{grid-template-columns:1.3fr 1fr}}
+  .timeline{list-style:none;margin:0;padding:0;border-left:2px solid var(--rule)}
+  .timeline li{position:relative;padding:0 0 16px 20px;font-size:13.5px}
+  .timeline li::before{content:"";position:absolute;left:-6px;top:5px;width:10px;height:10px;
+    border-radius:50%;background:var(--paper);border:2px solid var(--pine)}
+  .timeline li.done::before{background:var(--pine)}
+  .timeline .d{font-family:var(--mono);font-size:11.5px;color:var(--pine);font-weight:700;
+    display:block;letter-spacing:.02em}
+  .nextbox{background:var(--panel);padding:16px;align-self:start}
+  .nextbox h4{font-family:var(--sans);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    margin:0 0 10px;color:var(--pine)}
+  .nextbox ol{margin:0;padding-left:18px;font-size:13px}
+  .nextbox li{margin:7px 0}
+
+  /* ---------- Headlines / two-col ---------- */
+  .twocol{columns:2;column-gap:34px;column-rule:1px solid var(--hair)}
+  @media(max-width:640px){.twocol{columns:1}}
+  .hl{break-inside:avoid;margin:0 0 15px;padding-bottom:14px;border-bottom:1px solid var(--hair)}
+  .hl h3{font-family:var(--serif);font-size:17px;font-weight:700;margin:0 0 4px;line-height:1.18}
+  .hl p{margin:0;font-size:13px;color:var(--ink-soft)}
+  .hl .src{font-family:var(--sans);font-size:10px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--pine);font-weight:700}
+
+  /* ---------- Notable ---------- */
+  .notable{list-style:none;margin:0;padding:0;
+    display:grid;grid-template-columns:1fr;gap:0}
+  .notable li{display:flex;gap:12px;align-items:baseline;padding:11px 0;border-bottom:1px solid var(--hair);
+    font-size:14px}
+  .notable .dt{font-family:var(--mono);font-size:11px;color:var(--pine);font-weight:700;flex:none;
+    min-width:52px;font-variant-numeric:tabular-nums}
+
+  /* ---------- Sources / colophon ---------- */
+  .sources{font-family:var(--sans);font-size:12px;color:var(--ink-soft);line-height:1.7}
+  .sources a{color:var(--pine)}
+  .sources li{margin:4px 0}
+  a{color:var(--pine);text-decoration:none;border-bottom:1px solid var(--hair)}
+  a:hover{border-bottom-color:var(--pine)}
+  a:focus-visible{outline:2px solid var(--pine);outline-offset:2px}
+  .colophon{margin-top:30px;border-top:3px double var(--rule);padding-top:14px;
+    font-family:var(--sans);font-size:11px;color:var(--ink-faint);line-height:1.7}
+  .colophon b{color:var(--ink-soft)}
+  /* ---------- Print / PDF: external-ready, controlled page breaks ---------- */
+  @media print{
+    :root{
+      --paper:#fff; --paper-2:#f3f3ea; --panel:#f0efe6;
+      --ink:#14150d; --ink-soft:#45463a; --ink-faint:#6b6c5b;
+      --hair:#c7c7b8; --rule:#14150d;
+      --pine:#1c4a2b; --pine-soft:#3a6748;
+      --gain:#1a7346; --loss:#a8362a; --flag:#8f5410;
+    }
+    @page{ size:Letter; margin:0.55in; }
+    body{ background:#fff; }
+    .sheet{ box-shadow:none; max-width:none; padding:0; }
+    /* keep headings attached to their content */
+    .band,h1,h2,h3,h4{ break-after:avoid; page-break-after:avoid; }
+    .nameplate,.folio{ break-inside:avoid; }
+    /* never split these mid-element across a page */
+    .card,.callout,.hl,.nextbox,.notable li,.timeline li,.tape .row,.colophon{
+      break-inside:avoid; page-break-inside:avoid; }
+    /* keep whole bordered boxes together — move to next page rather than split */
+    .rail,.tablewrap,.docket>div{ break-inside:avoid; page-break-inside:avoid; }
+    section{ break-inside:auto; }
+    /* stack multi-column layouts so nothing straddles a page edge */
+    .lead,.docket{ display:block; }
+    .lead-main{ margin-bottom:16px; }
+    .rail{ border-top:2px solid var(--rule); margin-top:14px; padding-top:10px; }
+    .cards{ display:block; border:0; background:transparent; }
+    .cards .card{ border:1px solid var(--hair); margin-bottom:9px; }
+    .twocol{ columns:1; }
+    /* tables: repeat header, keep rows intact */
+    table{ break-inside:auto; }
+    thead{ display:table-header-group; }
+    tr{ break-inside:avoid; page-break-inside:avoid; }
+    .tablewrap{ overflow:visible; }
+    a{ border-bottom:0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="sheet">
+
+  <!-- ============ MASTHEAD ============ -->
+  <div class="flag-top">
+    <span>Deal-Desk Intelligence</span>
+    <span class="edt">★ Daily Edition ★</span>
+    <span>Cannabis &amp; Hemp Capital Markets</span>
+  </div>
+  <hr class="rule-1">
+  <div class="nameplate">
+    <svg width="52" height="52" viewBox="0 0 52 52" aria-hidden="true">
+      <g fill="none" stroke="var(--pine)" stroke-width="1.6" stroke-linecap="round">
+        <path d="M26 47 V27"/>
+        <path d="M26 27 C26 14 20 7 12 4 C15 13 17 20 26 27"/>
+        <path d="M26 27 C26 14 32 7 40 4 C37 13 35 20 26 27"/>
+        <path d="M26 30 C24 20 16 15 6 15 C10 24 15 29 26 30"/>
+        <path d="M26 30 C28 20 36 15 46 15 C42 24 37 29 26 30"/>
+        <path d="M26 33 C25 27 19 24 11 25 C15 31 19 33 26 33"/>
+        <path d="M26 33 C27 27 33 24 41 25 C37 31 33 33 26 33"/>
+      </g>
+    </svg>
+    <div>
+      <span class="kicker">PGP Capital Advisors</span>
+      <h1>The Cannabis Ledger</h1>
+    </div>
+  </div>
+  <hr class="rule-2">
+  <div class="folio">
+    <span>Vol. I &nbsp;·&nbsp; No. 1</span>
+    <span><b>Monday, August 10, 2026</b></span>
+    <span>Prepared for the Deal Team</span>
+  </div>
+  <hr class="rule-1">
+
+  <!-- ============ LEAD ============ -->
+  <section class="lead">
+    <div class="lead-main">
+      <p class="byline">Page One · The Big Story</p>
+      <h2 class="hed">The Hemp-THC Cliff: A $28 Billion Sector Gets a Statutory Clock</h2>
+      <p class="sub">The Senate buys time to Dec. 11 rather than ban outright — and every hemp-derived revenue line now trades on a countdown.</p>
+      <p class="drop">The dominant story across the sector this week is not a deal — it is a deadline. The U.S. Senate voted to <b>delay implementation of a federal hemp-THC ban until December 11, 2026</b>, giving lawmakers a narrow window to write regulation instead of prohibition. A bipartisan pair of lawmakers followed with a bill that would keep hemp-THC <b>beverages</b> federally legal and regulate them like alcohol — carving the drinks category out as a potential survivor.</p>
+      <p>The pressure is already reaching the rails that move product: payments processor <b>Square told merchants to stop selling hemp and CBD</b> ahead of the ban, a live signal that banking and payments tighten <em>before</em> the legal date arrives. The industry is not united — some cannabis groups quietly favor the ban to kill hemp competition, drawing an op-ed rebuke against "arming prohibitionists." Meanwhile <b>Curaleaf is exiting the hemp-THC market</b> altogether.</p>
+      <div class="callout">
+        <span class="lab">Why it matters to PGP</span>
+        A ~$28B hemp sector now sits on a legislative countdown. Expect (1) compressed, uncertain valuations on hemp-THC and beverage assets through year-end; (2) forced-seller and distressed opportunities as payments/banking access erodes; and (3) a hard diligence question on every mandate — <b>does this revenue line survive December 11?</b> Beverage assets with an "alcohol-style" regulatory path are the relative winners; smokable and edible hemp-THC exposure is the relative loser.
+      </div>
+    </div>
+
+    <aside class="rail">
+      <h3>On the Tape — Status, Not Prices</h3>
+      <div class="tape">
+        <div class="row"><span class="tk">TRLV</span><span class="st">Trulieve uplists to the <b>NYSE</b> — institutional access opens <span class="pill up">Uplist</span></span></div>
+        <div class="row"><span class="tk">Ch. 15</span><span class="st">Cannabis operators <b>gain U.S. bankruptcy access</b> — distressed M&amp;A unlocked <span class="pill up">Structural</span></span></div>
+        <div class="row"><span class="tk">280E</span><span class="st">Post-rescheduling <b>retroactive refunds</b> in play — margin uplift <span class="pill up">Tailwind</span></span></div>
+        <div class="row"><span class="tk">AAWH</span><span class="st">Ascend <b>Q2 call Aug 12</b>; reverse-split vote Aug 28 <span class="pill watch">Catalyst</span></span></div>
+        <div class="row"><span class="tk">HEMP</span><span class="st">Federal ban clock to <b>Dec 11</b>; Square drops CBD <span class="pill down">Risk</span></span></div>
+      </div>
+      <div class="callout" style="margin-top:16px">
+        <span class="lab">Desk note</span>
+        Figures are event/status flags, not live quotes. Confirm pricing on the terminal before any client-facing use.
+      </div>
+    </aside>
+  </section>
+
+  <!-- ============ PRIORITY COVERAGE ============ -->
+  <section>
+    <p class="band">Today's Roundup · Priority Coverage</p>
+    <div class="cards">
+      <div class="card">
+        <p class="co">Ascend Wellness</p>
+        <span class="tkr">NYSE-A: AAWH</span>
+        <div class="status s-live">● Quiet today · big week ahead</div>
+        <ul>
+          <li>No new same-day corporate release. Most recent filing: <b>July 14 proxy</b> calling a stockholder meeting to tee up a U.S. exchange uplisting.</li>
+          <li><span class="flagmark">⚠ Q2 2026 earnings call — Aug 12</span> (two days out).</li>
+          <li><b>Reverse-split vote</b> at special meeting <b>Aug 28</b>; ratio between 1-for-10 and 1-for-50, paving the uplisting.</li>
+          <li><b>Labor:</b> Teamsters Local 916 ULP strike at the Barry, IL grow (began Jun 25) resolved late July — 300+ workers ratified a first contract, ending the ~30-day walkout, the largest in U.S. cannabis history.</li>
+        </ul>
+        <div class="cal">Watch: earnings tone on 280E refunds &amp; uplisting timeline; any further Local 916 grievances.</div>
+      </div>
+
+      <div class="card">
+        <p class="co">Premier Group / PCF</p>
+        <span class="tkr">Private · California</span>
+        <div class="status s-quiet">● No verified news in window</div>
+        <ul>
+          <li>Privately held CA operator, ~19 dispensaries statewide. Flagship <b>PCF</b> (Patient Care First — PCF Ceres / 209) in Modesto–Ceres; sisters include Flavors Santa Cruz, X1 Tracy, pHenos Modesto, Firehouse Turlock.</li>
+          <li>No earnings (private). Newsflow comes from <b>CA DCC</b> licensing/enforcement and Modesto/Stanislaus local press — neither surfaced a dated item today.</li>
+        </ul>
+        <div class="cal">No CA DCC action or Modesto/Stanislaus local-press item surfaced in the review window. (National trades do not cover PCF; scheduled editions add a dedicated DCC + local-press sweep.)</div>
+      </div>
+
+      <div class="card">
+        <p class="co">Verano Holdings</p>
+        <span class="tkr">CBOE-CA: VRNO</span>
+        <div class="status s-live">● Quiet today · confirm Q2</div>
+        <ul>
+          <li>No new same-day release. Recent posture: <b>June 1</b> move into the uplisting wave via a <b>reverse stock split</b> to widen institutional access.</li>
+          <li>Balance sheet: <b>$195M growth loan</b> (9.5%, matures 2029, prepayment flexibility) funding expansion.</li>
+          <li><b>Q2 2026 results were due ~Aug 5</b> and are not yet reflected in trade coverage as of this edition.</li>
+        </ul>
+        <div class="cal">Next catalysts: Q2 print, uplisting mechanics, any Zen Leaf (IL) labor activity.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SECTOR TAPE / MSOS ============ -->
+  <section>
+    <p class="band">The Sector Tape · MSOS &amp; the MSO Complex</p>
+    <div class="docket">
+      <div>
+        <h2 class="hed" style="font-size:22px;margin-bottom:6px">The benchmark ETF, and what's moving it</h2>
+        <p class="dek" style="margin:0 0 12px">MSOS is the sector's proxy — read it for the tone institutional money is taking on U.S. plant-touching operators.</p>
+        <p style="font-size:14px;margin:.4em 0">The <b>AdvisorShares Pure US Cannabis ETF (NYSE&nbsp;Arca: MSOS)</b> is the primary institutional proxy for U.S. plant-touching MSOs. It is concentrated in exactly the names on this desk's watchlist — <b>Green Thumb (GTII), Curaleaf (CURA), Trulieve (TRLV), Verano (VRNO), Cresco (CRLBF)</b> and <b>TerrAscend (TSNDF)</b> — so the fund's tape is a fast read on how capital is pricing the group as a whole.</p>
+        <p style="font-size:14px;margin:.4em 0"><b>Crosscurrents this week:</b> supportive — post-rescheduling optimism, potential 280E relief, and Trulieve's NYSE uplisting broadening institutional access; offsetting — the Dec&nbsp;11 hemp-THC overhang, Square's CBD pullback, and Curaleaf's hemp exit signalling category retreat.</p>
+      </div>
+      <div class="nextbox">
+        <h4>Live Data — Automated Editions</h4>
+        <p style="font-size:13px;margin:0 0 10px">MSOS level, weekly &amp; MTD move, volume, and constituent leaders/laggards are pulled from the <b>S&amp;P&nbsp;Global</b> market feed in the scheduled daily/weekly runs, alongside direct <b>company IR-page</b> checks.</p>
+        <div class="callout" style="margin:0;background:transparent;border-left-color:var(--pine)">
+          <span class="lab">This edition</span>
+          Compiled from trade primary sources; it reports the <b>drivers</b> of sector performance, not intraday price levels — verify quotes on the terminal before client use.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ M&A TRACKER ============ -->
+  <section>
+    <p class="band">M&amp;A &amp; Financing Deal Tracker</p>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>Deal</th><th>What</th><th>Status</th><th>Date</th><th>Source</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="deal">Vireo Growth → Planet 13</span></td>
+            <td>All-stock acquisition; adds 36 dispensaries across 3 states incl. Planet 13's flagship Las Vegas superstore. Double watchlist hit (VREOF + PLNH).</td>
+            <td><span class="tag t-ann">Announced</span></td>
+            <td class="date">Jul 28 '26</td>
+            <td>MJBizDaily</td>
+          </tr>
+          <tr>
+            <td><span class="deal">Vireo Growth → Pennsylvania</span></td>
+            <td>$20M market-entry deal — latest step in Vireo's multi-state roll-up.</td>
+            <td><span class="tag t-ann">Announced</span></td>
+            <td class="date">Jul 2 '26</td>
+            <td>MJBizDaily</td>
+          </tr>
+          <tr>
+            <td><span class="deal">Verdant → Native Roots</span></td>
+            <td>Investment/ops platform acquired the Colorado Native Roots stores; a CO cultivation site then wound down.</td>
+            <td><span class="tag t-close">Closed</span></td>
+            <td class="date">Jul 31 '26</td>
+            <td>MJBizDaily</td>
+          </tr>
+          <tr>
+            <td><span class="deal">Vireo Growth → Fluent</span></td>
+            <td>Debt-for-stock; vaults Vireo toward 3rd-largest operator in medical-only Florida.</td>
+            <td><span class="tag t-close">Closed</span></td>
+            <td class="date">Apr 30 '26</td>
+            <td>MJBizDaily</td>
+          </tr>
+          <tr>
+            <td><span class="deal">AYR Wellness → Arboretum Bidco</span></td>
+            <td>Court-driven handoff of FL / NJ / NV operations to a creditor vehicle — restructuring, not a market sale.</td>
+            <td><span class="tag t-court">Court / Closed</span></td>
+            <td class="date">Jun '26</td>
+            <td>Industry filings</td>
+          </tr>
+          <tr>
+            <td><span class="deal">The Cannabist Co.</span></td>
+            <td>Chapter 15 bankruptcy (Delaware), ~$270M; Denver cultivation closed. Assets feeding Vireo/Verano roll-ups.</td>
+            <td><span class="tag t-court">Chapter 15</span></td>
+            <td class="date">Mar–Jul '26</td>
+            <td>MJBizDaily</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">
+      <span class="lab">Why it matters to PGP</span>
+      Two structural unlocks are reshaping the deal map at once: <b>federal bankruptcy access</b> (Chapter 15 approvals) finally gives cannabis a real restructuring toolkit — 363-style asset sales, distressed buyers, credit-bid dynamics — while <b>Vireo's roll-up</b> shows a consolidator paying in stock and absorbing distressed portfolios (Fluent, Cannabist, now Planet 13). Sourcing edge for PGP sits in the distressed/creditor lane and in sell-side mandates for sub-scale single-state operators that make sense as roll-up fuel.
+    </div>
+  </section>
+
+  <!-- ============ RESCHEDULING DOCKET ============ -->
+  <section>
+    <p class="band">The Rescheduling Docket</p>
+    <div class="docket">
+      <div>
+        <h2 class="hed" style="font-size:22px;margin-bottom:6px">Schedule I → III: hearings closed, decision pending</h2>
+        <p class="dek" style="margin:0 0 14px">Medical/FDA-approved products already moved to Schedule III; the broader reclassification now sits with the DEA's administrative law judge.</p>
+        <ul class="timeline">
+          <li class="done"><span class="d">Apr 23, 2026</span> DOJ order moves <b>medical / FDA-approved marijuana to Schedule III</b>; encourages Treasury to weigh 280E.</li>
+          <li class="done"><span class="d">Jun 24–29, 2026</span> DEA ALJ hearings open; opponents call the move "solely political." SAFER Banking reintroduced in both chambers (Jun 25).</li>
+          <li class="done"><span class="d">Jul 15, 2026</span> <b>Hearings conclude</b> — a CA county sheriff testifies in support of regulated cannabis; no outcome issued.</li>
+          <li class="done"><span class="d">Jun–Aug, 2026</span> States maneuver: <b>Wyoming opts out</b> (Jul 8), <b>Louisiana</b> drops its challenge (Jun 26), <b>Alabama</b> signals a partial opt-out (Aug 3) — fragmenting 280E &amp; interstate treatment.</li>
+        </ul>
+      </div>
+      <div class="nextbox">
+        <h4>What's Next on the Docket</h4>
+        <ol>
+          <li><b>Aug 17, 2026</b> — post-hearing briefs due.</li>
+          <li>ALJ issues a <b>recommended decision</b>.</li>
+          <li><b>20-day</b> exceptions window for parties.</li>
+          <li>DEA Administrator makes the <b>final call</b>.</li>
+        </ol>
+        <div class="callout" style="margin:14px 0 0;background:transparent;border-left-color:var(--pine)">
+          <span class="lab">PGP takeaway</span>
+          280E relief flows straight to operator EBITDA and re-rates every model; uplistings (TRLV, AAWH, VRNO) open institutional capital. But state-level opt-outs mean the reschedule is not uniform — diligence must be state-by-state.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ INDUSTRY HEADLINES ============ -->
+  <section>
+    <p class="band">Industry Headlines</p>
+    <div class="twocol">
+      <div class="hl">
+        <h3>Delaware's first legal year badly missed projections</h3>
+        <p>Year-one adult-use sales landed at ~$53.4M against far loftier state forecasts — a grower/supply bottleneck, not demand. <span class="src">Marijuana Moment · MJBizDaily</span></p>
+      </div>
+      <div class="hl">
+        <h3>Illinois demand keeps climbing as prices fall</h3>
+        <p>Volume rose 9.3% in H1 2026 six years post-legalization — mature-market resilience amid price compression. <span class="src">Crain's Chicago Business</span></p>
+      </div>
+      <div class="hl">
+        <h3>Georgia medical sign-ups outrun the state</h3>
+        <p>Expanded medical-cannabis law is drawing patients faster than officials can process them. <span class="src">MJBizDaily · Marijuana Moment</span></p>
+      </div>
+      <div class="hl">
+        <h3>New York opens farmers' markets to cannabis</h3>
+        <p>Governor signs a bill letting microbusinesses sell at pop-ups and farmers' markets — a new small-operator retail channel. <span class="src">Marijuana Moment</span></p>
+      </div>
+      <div class="hl">
+        <h3>Massachusetts town owes stores $2M</h3>
+        <p>A judge ordered a city to repay three cannabis retailers for misspent host-community fees — a precedent on impact-fee clawbacks. <span class="src">MJBizDaily</span></p>
+      </div>
+      <div class="hl">
+        <h3>Risk flags: Alabama opens; Oklahoma pushes back</h3>
+        <p>Alabama's market comes online while Oklahoma's governor floats recriminalization — the map keeps diverging. <span class="src">MJBizDaily</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ NOTABLE 2 WEEKS ============ -->
+  <section>
+    <p class="band">Notable in the Past ~2 Weeks</p>
+    <ul class="notable">
+      <li><span class="dt">Jul 28</span><span><b>Vireo Growth to acquire Planet 13</b> in an all-stock deal — +36 dispensaries, flagship Las Vegas store.</span></li>
+      <li><span class="dt">Jul 31</span><span><b>Verdant closes Native Roots</b> acquisition (Colorado); a CO cultivation site subsequently shut.</span></li>
+      <li><span class="dt">Jul 15</span><span><b>DEA rescheduling hearings conclude</b> — recommended decision pending; briefs due Aug 17.</span></li>
+      <li><span class="dt">Late Jul</span><span><b>Ascend Teamsters first contract ratified</b>, ending the ~30-day Barry, IL strike (largest in U.S. cannabis history).</span></li>
+      <li><span class="dt">Aug 7</span><span><b>Senate votes to delay the federal hemp-THC ban</b> to Dec 11; bipartisan bill would regulate hemp beverages like alcohol.</span></li>
+      <li><span class="dt">Ongoing</span><span><b>Trulieve uplists to the NYSE</b>; cannabis operators gain U.S. <b>Chapter 15</b> bankruptcy access.</span></li>
+      <li><span class="dt">Ongoing</span><span><b>Curaleaf to exit the hemp-THC market</b> as the federal cliff nears.</span></li>
+    </ul>
+  </section>
+
+  <!-- ============ SOURCES ============ -->
+  <section>
+    <p class="band">Sources — Reviewed Today</p>
+    <ul class="sources">
+      <li><a href="https://mjbizdaily.com">MJBizDaily</a> — hemp-THC Senate delay; Vireo→Planet 13 (Jul 28); Vireo→Pennsylvania (Jul 2); Verdant→Native Roots (Jul 31); Vireo→Fluent (Apr 30); Ascend uplisting proxy (Jul 14); Verano uplisting/reverse split (Jun 1) &amp; $195M loan; rescheduling hearings conclude (Jul 15–17); Alabama opt-out (Aug 3); Chapter 15 / cannabis bankruptcy access; Trulieve NYSE; Curaleaf hemp exit.</li>
+      <li><a href="https://marijuanamoment.net">Marijuana Moment</a> — new bipartisan hemp-beverage bill; Senate vote splits partisan lines; Square drops hemp/CBD; Delaware underperformance; Georgia patient surge; NY farmers'-market signing; newsletter Aug 10, 2026.</li>
+      <li><a href="https://chicagobusiness.com">Crain's Chicago Business</a> — Illinois demand +9.3% H1; medical-marijuana reclassification context; cannabis-stock reaction.</li>
+    </ul>
+  </section>
+
+  <!-- ============ COLOPHON ============ -->
+  <div class="colophon">
+    <p><b>About this edition.</b> Compiled Aug 10, 2026 from live review of MJBizDaily, Marijuana Moment, and Crain's Chicago Business. Priority names (Ascend, Premier/PCF, Verano) and the MSO watchlist were each queried individually; items outside the ~24–48h window are labeled by date and carried in "Notable in the Past ~2 Weeks." Calendar items (earnings, votes, brief deadlines) are scheduled events, not completed actions. Scheduled daily/weekly editions extend this run with direct <b>company IR-page</b> checks, live <b>MSOS &amp; constituent market data</b> via the S&amp;P Global feed, a CA DCC + Modesto/Stanislaus sweep for PCF, and email delivery.</p>
+    <p><b>On imagery.</b> Editorial spot-art and status flags are original to this briefing; third-party news photographs are not reproduced (licensing). Company logos or price charts can be added on request. <b>Not investment advice.</b> Figures on "the tape" are event flags, not quotes — verify pricing before client use.</p>
+    <p><b>The Cannabis Ledger</b> · PGP Capital Advisors · Deal-Desk Intelligence · Daily</p>
+  </div>
+
+</div>
+
+</body>
+</html>
