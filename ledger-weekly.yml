@@ -1,0 +1,50 @@
+name: Cannabis Ledger — Weekly Roundup
+
+on:
+  schedule:
+    # 21:00 UTC = 2:00pm America/Los_Angeles (PDT), Fridays
+    - cron: "0 21 * * 5"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: cannabis-ledger-publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Claude Code
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Build the weekly roundup
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+        run: |
+          claude -p "Read the file .github/ledger-prompt-weekly.md in this repository and follow its instructions EXACTLY to research, build, and SAVE this week's roundup: write editions/ledger-weekly-<UTC date>.html and prepend its entry in index.html. Do NOT run any git commands — a later step commits your changes." \
+            --allowedTools "WebSearch,WebFetch,Read,Write,Edit,Bash,Glob,Grep" \
+            --dangerously-skip-permissions
+
+      - name: Commit & push edition
+        run: |
+          git config user.name "Cannabis Ledger Bot"
+          git config user.email "desk@pgpcapital.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes to publish this week."
+          else
+            git commit -m "weekly $(date -u +%Y-%m-%d)"
+            git push
+          fi
