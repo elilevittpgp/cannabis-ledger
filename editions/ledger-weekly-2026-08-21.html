@@ -1,0 +1,634 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Cannabis Ledger — Weekly, Week of August 15–21, 2026</title>
+<style>
+  :root{
+    --paper:#f6f6f0; --paper-2:#efefe6; --panel:#eae9dd;
+    --ink:#16170f; --ink-soft:#474839; --ink-faint:#6d6e5d;
+    --hair:#cdcdbd; --rule:#16170f;
+    --pine:#1f4d2e; --pine-soft:#3c6b4a;
+    --gain:#1c7a48; --loss:#b0392c; --flag:#9a5b12;
+    --serif:Georgia,"Times New Roman",Times,serif;
+    --sans:"Helvetica Neue",Helvetica,Arial,sans-serif;
+    --mono:"SF Mono",ui-monospace,"Courier New",monospace;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --paper:#14150d; --paper-2:#1b1c12; --panel:#202115;
+      --ink:#ecece0; --ink-soft:#b0b1a0; --ink-faint:#84856f;
+      --hair:#34362a; --rule:#4a4c3c;
+      --pine:#77b389; --pine-soft:#9ccaa9;
+      --gain:#54c088; --loss:#e28a79; --flag:#d0a24e;
+    }
+  }
+  :root[data-theme="dark"]{
+      --paper:#14150d; --paper-2:#1b1c12; --panel:#202115;
+      --ink:#ecece0; --ink-soft:#b0b1a0; --ink-faint:#84856f;
+      --hair:#34362a; --rule:#4a4c3c;
+      --pine:#77b389; --pine-soft:#9ccaa9;
+      --gain:#54c088; --loss:#e28a79; --flag:#d0a24e;
+  }
+  :root[data-theme="light"]{
+      --paper:#f6f6f0; --paper-2:#efefe6; --panel:#eae9dd;
+      --ink:#16170f; --ink-soft:#474839; --ink-faint:#6d6e5d;
+      --hair:#cdcdbd; --rule:#16170f;
+      --pine:#1f4d2e; --pine-soft:#3c6b4a;
+      --gain:#1c7a48; --loss:#b0392c; --flag:#9a5b12;
+  }
+
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ink);color:var(--ink)}
+  .sheet{
+    max-width:1120px;margin:0 auto;background:var(--paper);
+    padding:clamp(18px,4vw,54px) clamp(16px,4vw,56px) 40px;
+    font-family:var(--serif);line-height:1.5;
+  }
+  @media(min-width:820px){ .sheet{box-shadow:0 0 0 1px var(--hair)} }
+
+  /* ---------- Masthead ---------- */
+  .flag-top{display:flex;justify-content:space-between;align-items:center;
+    font-family:var(--sans);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--ink-soft);padding-bottom:8px;gap:12px;flex-wrap:wrap}
+  .flag-top .edt{color:var(--pine);font-weight:700}
+  .rule-2{border:0;border-top:3px double var(--rule);margin:0}
+  .rule-1{border:0;border-top:1px solid var(--rule);margin:0}
+  .hair{border:0;border-top:1px solid var(--hair);margin:0}
+  .nameplate{display:flex;align-items:center;justify-content:center;gap:18px;
+    padding:14px 0 6px;text-align:center}
+  .nameplate svg{flex:none}
+  .nameplate h1{font-size:clamp(34px,7vw,68px);line-height:.92;margin:0;
+    font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+  .nameplate .kicker{display:block;font-family:var(--sans);font-weight:700;
+    font-size:clamp(9px,1.5vw,12px);letter-spacing:.34em;color:var(--pine);
+    text-transform:uppercase;margin-bottom:6px}
+  .folio{display:flex;justify-content:space-between;align-items:center;gap:10px;
+    font-family:var(--sans);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--ink-soft);padding:7px 2px;flex-wrap:wrap}
+  .folio b{color:var(--ink)}
+  .daterange{text-align:center;font-family:var(--sans);font-size:13px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--ink-soft);padding:2px 0 10px}
+  .daterange b{color:var(--pine)}
+
+  /* ---------- Structure ---------- */
+  section{margin-top:26px}
+  .band{font-family:var(--sans);text-transform:uppercase;letter-spacing:.18em;
+    font-size:12px;font-weight:700;color:var(--pine);
+    display:flex;align-items:center;gap:12px;margin:0 0 12px}
+  .band::after{content:"";flex:1;border-top:1px solid var(--hair)}
+  h2.hed{font-family:var(--serif);font-weight:700;text-wrap:balance;margin:0}
+  .dek{color:var(--ink-soft);font-style:italic}
+  .byline{font-family:var(--sans);font-size:10.5px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--ink-faint)}
+
+  /* ---------- Lead / Week in Review ---------- */
+  .lead{display:grid;grid-template-columns:1fr;gap:26px}
+  @media(min-width:860px){.lead{grid-template-columns:1.9fr 1fr;gap:34px}}
+  .lead-main h2{font-size:clamp(26px,4.4vw,42px);line-height:1.04}
+  .lead-main .sub{font-size:clamp(15px,2vw,18px);margin:.5em 0 0;color:var(--ink-soft);font-style:italic}
+  .drop::first-letter{float:left;font-size:3.6em;line-height:.72;padding:6px 10px 0 0;
+    font-weight:700;color:var(--pine)}
+  .lead-main p{margin:.85em 0}
+  .weekstory{margin-top:22px;padding-top:18px;border-top:1px solid var(--hair)}
+  .weekstory:first-of-type{margin-top:18px}
+  .weekstory .rank{font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--flag);display:block;margin-bottom:6px}
+  .weekstory h3{font-family:var(--serif);font-size:clamp(18px,2.6vw,23px);font-weight:700;
+    margin:0 0 6px;line-height:1.18;text-wrap:balance}
+  .rail{border-top:2px solid var(--rule);padding-top:10px}
+  .rail h3{font-family:var(--sans);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+    margin:0 0 10px;color:var(--ink)}
+  .tape{display:flex;flex-direction:column;gap:0}
+  .tape .row{display:flex;gap:10px;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--hair);
+    font-family:var(--sans);font-size:12.5px}
+  .tape .tk{font-family:var(--mono);font-weight:700;color:var(--pine);flex:none;min-width:58px;
+    font-variant-numeric:tabular-nums}
+  .tape .st{color:var(--ink-soft)}
+  .pill{display:inline-block;font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.06em;
+    text-transform:uppercase;padding:2px 7px;border-radius:2px;border:1px solid currentColor}
+  .up{color:var(--gain)} .down{color:var(--loss)} .watch{color:var(--flag)}
+
+  .callout{background:var(--panel);border-left:3px solid var(--pine);
+    padding:12px 16px;margin:16px 0;font-size:14px}
+  .callout .lab{font-family:var(--sans);font-weight:700;font-size:10.5px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--pine);display:block;margin-bottom:4px}
+
+  /* ---------- Priority cards ---------- */
+  .cards{display:grid;grid-template-columns:1fr;gap:1px;background:var(--hair);
+    border:1px solid var(--hair)}
+  @media(min-width:760px){.cards{grid-template-columns:repeat(3,1fr)}}
+  .card{background:var(--paper);padding:16px 16px 18px}
+  .card .co{font-family:var(--serif);font-size:20px;font-weight:700;margin:0;line-height:1.1}
+  .card .tkr{font-family:var(--mono);font-size:12px;color:var(--pine);font-weight:700}
+  .card .status{font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.08em;
+    text-transform:uppercase;margin:8px 0 10px;display:inline-block}
+  .s-quiet{color:var(--ink-faint)} .s-live{color:var(--flag)}
+  .card ul{margin:6px 0 0;padding-left:16px;font-size:13px}
+  .card li{margin:6px 0}
+  .card .cal{font-family:var(--sans);font-size:11px;color:var(--ink-soft);margin-top:12px;
+    border-top:1px solid var(--hair);padding-top:8px}
+  .flagmark{color:var(--flag);font-weight:700}
+
+  /* ---------- Deal tracker ---------- */
+  .tablewrap{overflow-x:auto;border:1px solid var(--hair)}
+  table{border-collapse:collapse;width:100%;min-width:640px;font-size:13px}
+  thead th{background:var(--panel);font-family:var(--sans);font-size:10.5px;letter-spacing:.08em;
+    text-transform:uppercase;text-align:left;padding:10px 12px;border-bottom:2px solid var(--rule);color:var(--ink)}
+  tbody td{padding:11px 12px;border-bottom:1px solid var(--hair);vertical-align:top}
+  tbody tr:last-child td{border-bottom:0}
+  td .deal{font-weight:700}
+  td.date{font-family:var(--mono);font-size:12px;white-space:nowrap;color:var(--ink-soft);
+    font-variant-numeric:tabular-nums}
+  .tag{font-family:var(--sans);font-size:9.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+    padding:2px 6px;border-radius:2px;white-space:nowrap}
+  .t-close{background:rgba(28,122,72,.14);color:var(--gain)}
+  .t-ann{background:rgba(154,91,18,.16);color:var(--flag)}
+  .t-court{background:rgba(176,57,44,.14);color:var(--loss)}
+
+  /* ---------- Docket timeline ---------- */
+  .docket{display:grid;grid-template-columns:1fr;gap:22px}
+  @media(min-width:820px){.docket{grid-template-columns:1.3fr 1fr}}
+  .timeline{list-style:none;margin:0;padding:0;border-left:2px solid var(--rule)}
+  .timeline li{position:relative;padding:0 0 16px 20px;font-size:13.5px}
+  .timeline li::before{content:"";position:absolute;left:-6px;top:5px;width:10px;height:10px;
+    border-radius:50%;background:var(--paper);border:2px solid var(--pine)}
+  .timeline li.done::before{background:var(--pine)}
+  .timeline .d{font-family:var(--mono);font-size:11.5px;color:var(--pine);font-weight:700;
+    display:block;letter-spacing:.02em}
+  .nextbox{background:var(--panel);padding:16px;align-self:start}
+  .nextbox h4{font-family:var(--sans);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    margin:0 0 10px;color:var(--pine)}
+  .nextbox ol{margin:0;padding-left:18px;font-size:13px}
+  .nextbox li{margin:7px 0}
+
+  /* ---------- Headlines / two-col ---------- */
+  .twocol{columns:2;column-gap:34px;column-rule:1px solid var(--hair)}
+  @media(max-width:640px){.twocol{columns:1}}
+  .hl{break-inside:avoid;margin:0 0 15px;padding-bottom:14px;border-bottom:1px solid var(--hair)}
+  .hl h3{font-family:var(--serif);font-size:17px;font-weight:700;margin:0 0 4px;line-height:1.18}
+  .hl p{margin:0;font-size:13px;color:var(--ink-soft)}
+  .hl .src{font-family:var(--sans);font-size:10px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--pine);font-weight:700}
+
+  /* ---------- Week Ahead calendar ---------- */
+  .calbox{background:var(--panel);border:1px solid var(--hair);padding:6px 20px}
+  .calrow{display:grid;grid-template-columns:150px 1fr;gap:16px;align-items:baseline;
+    padding:13px 0;border-bottom:1px solid var(--hair)}
+  .calrow:last-child{border-bottom:0}
+  @media(max-width:600px){.calrow{grid-template-columns:1fr;gap:2px}}
+  .calrow .cd{font-family:var(--mono);font-size:12.5px;font-weight:700;color:var(--pine);
+    white-space:nowrap;font-variant-numeric:tabular-nums}
+  .calrow .ce{font-size:13.5px}
+  .calrow .ce b{color:var(--ink)}
+
+  /* ---------- Notable ---------- */
+  .notable{list-style:none;margin:0;padding:0;
+    display:grid;grid-template-columns:1fr;gap:0}
+  .notable li{display:flex;gap:12px;align-items:baseline;padding:11px 0;border-bottom:1px solid var(--hair);
+    font-size:14px}
+  .notable .dt{font-family:var(--mono);font-size:11px;color:var(--pine);font-weight:700;flex:none;
+    min-width:52px;font-variant-numeric:tabular-nums}
+
+  /* ---------- Sources / colophon ---------- */
+  .sources{font-family:var(--sans);font-size:12px;color:var(--ink-soft);line-height:1.7}
+  .sources a{color:var(--pine)}
+  .sources li{margin:4px 0}
+  a{color:var(--pine);text-decoration:none;border-bottom:1px solid var(--hair)}
+  a:hover{border-bottom-color:var(--pine)}
+  a:focus-visible{outline:2px solid var(--pine);outline-offset:2px}
+  .colophon{margin-top:30px;border-top:3px double var(--rule);padding-top:14px;
+    font-family:var(--sans);font-size:11px;color:var(--ink-faint);line-height:1.7}
+  .colophon b{color:var(--ink-soft)}
+  /* ---------- Print / PDF: external-ready, controlled page breaks ---------- */
+  @media print{
+    :root{
+      --paper:#fff; --paper-2:#f3f3ea; --panel:#f0efe6;
+      --ink:#14150d; --ink-soft:#45463a; --ink-faint:#6b6c5b;
+      --hair:#c7c7b8; --rule:#14150d;
+      --pine:#1c4a2b; --pine-soft:#3a6748;
+      --gain:#1a7346; --loss:#a8362a; --flag:#8f5410;
+    }
+    @page{ size:Letter; margin:0.55in; }
+    body{ background:#fff; }
+    .sheet{ box-shadow:none; max-width:none; padding:0; }
+    /* keep headings attached to their content */
+    .band,h1,h2,h3,h4{ break-after:avoid; page-break-after:avoid; }
+    .nameplate,.folio,.daterange{ break-inside:avoid; }
+    /* never split these mid-element across a page */
+    .card,.callout,.hl,.nextbox,.notable li,.timeline li,.tape .row,.colophon,.weekstory,.calrow{
+      break-inside:avoid; page-break-inside:avoid; }
+    /* keep whole bordered boxes together — move to next page rather than split */
+    .rail,.tablewrap,.docket>div,.calbox{ break-inside:avoid; page-break-inside:avoid; }
+    section{ break-inside:auto; }
+    /* stack multi-column layouts so nothing straddles a page edge */
+    .lead,.docket{ display:block; }
+    .lead-main{ margin-bottom:16px; }
+    .rail{ border-top:2px solid var(--rule); margin-top:14px; padding-top:10px; }
+    .cards{ display:block; border:0; background:transparent; }
+    .cards .card{ border:1px solid var(--hair); margin-bottom:9px; }
+    .twocol{ columns:1; }
+    /* tables: repeat header, keep rows intact */
+    table{ break-inside:auto; }
+    thead{ display:table-header-group; }
+    tr{ break-inside:avoid; page-break-inside:avoid; }
+    .tablewrap{ overflow:visible; }
+    a{ border-bottom:0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="sheet">
+
+  <!-- ============ MASTHEAD ============ -->
+  <div class="flag-top">
+    <span>Deal-Desk Intelligence</span>
+    <span class="edt">★ Weekly Roundup ★</span>
+    <span>Cannabis &amp; Hemp Capital Markets</span>
+  </div>
+  <hr class="rule-1">
+  <div class="nameplate">
+    <svg width="52" height="52" viewBox="0 0 52 52" aria-hidden="true">
+      <g fill="none" stroke="var(--pine)" stroke-width="1.6" stroke-linecap="round">
+        <path d="M26 47 V27"/>
+        <path d="M26 27 C26 14 20 7 12 4 C15 13 17 20 26 27"/>
+        <path d="M26 27 C26 14 32 7 40 4 C37 13 35 20 26 27"/>
+        <path d="M26 30 C24 20 16 15 6 15 C10 24 15 29 26 30"/>
+        <path d="M26 30 C28 20 36 15 46 15 C42 24 37 29 26 30"/>
+        <path d="M26 33 C25 27 19 24 11 25 C15 31 19 33 26 33"/>
+        <path d="M26 33 C27 27 33 24 41 25 C37 31 33 33 26 33"/>
+      </g>
+    </svg>
+    <div>
+      <span class="kicker">PGP Capital Advisors · Weekly Roundup</span>
+      <h1>The Cannabis Ledger</h1>
+    </div>
+  </div>
+  <hr class="rule-2">
+  <div class="folio">
+    <span>Vol. I &nbsp;·&nbsp; Weekly No. 2</span>
+    <span><b>Friday, August 21, 2026</b></span>
+    <span>Prepared for the Deal Team</span>
+  </div>
+  <div class="daterange">Week of <b>August 15 – 21, 2026</b></div>
+  <hr class="rule-1">
+
+  <!-- ============ THE WEEK IN REVIEW ============ -->
+  <section class="lead">
+    <div class="lead-main">
+      <p class="byline">Page One · The Week in Review</p>
+      <h2 class="hed">Curaleaf's Bid for Aurora Turns Real — and Aurora Fights Back With a Deal of Its Own</h2>
+      <p class="sub">A hostile take-over bid moves from press release to formally mailed circular, the target keeps dealmaking through the fight, the DEA's own lawyers argue for Schedule III with still no clock attached, and MSOS rallies to a fresh month-to-date high, up 17% in August.</p>
+
+      <div class="weekstory">
+        <span class="rank">No. 1 · M&amp;A</span>
+        <h3 class="drop">Curaleaf formally commences its Aurora bid; five days later, Aurora goes shopping itself</h3>
+        <p>Curaleaf Holdings converted its Aug. 11 "intention to launch" into a live, formally commenced take-over bid on <b>Aug. 18</b>, filing and mailing the Offer and Take-Over Bid Circular to Aurora Cannabis shareholders. Terms were unchanged — US$4.00/share implied (0.3463 Curaleaf shares plus US$0.75 cash), capped at US$5.00/share, roughly a 45% premium to Aurora's 30-day VWAP — but now carry no financing or diligence condition and a hard expiry of 5 p.m. MT on <b>Dec. 1, 2026</b>. Aurora's reaction was telling: shares rose a muted 1.9% on the mailing, a fraction of the 20%-plus pop the stock saw when Curaleaf first floated the idea, suggesting the market had already priced in formal commencement. Aurora's special committee has adopted no poison pill and issued no recommendation; a formal Directors' Circular is due under Canadian take-over rules roughly Sept. 2. Then, five days into fielding the bid, Aurora went shopping of its own on <b>Aug. 19</b> — acquiring UK-based Internode Pharma and HAP Pharma, a Birmingham pharmacy, for roughly £2.1 million cash to tighten its UK medical-cannabis distribution chain. Aurora shares jumped 6.54% the same session Curaleaf rose 6.96%, amid a broadly risk-on tape. No counter-bid, poison pill, or negotiated deal has surfaced as of this edition.</p>
+      </div>
+      <div class="callout">
+        <span class="lab">Why it matters to PGP</span>
+        Two structuring lessons. First, staged M&amp;A disclosure — float an "intention," then formally commence weeks later — gets priced almost entirely on the first headline; Aurora's 1.9% reaction to a legally significant escalation (no financing condition, hard expiry) versus its 20%-plus pop on the original announcement is a data point worth carrying into how PGP times and sequences any live-bid mandate. Second, a hostile-bid target that keeps signing its own deals rather than freezing to defend complicates the acquirer's "hold value hostage" thesis — Aurora's board is signaling it intends to keep running the company through the fight, a posture worth benchmarking for both buy-side and defense-side hostile-bid work.
+      </div>
+
+      <div class="weekstory">
+        <span class="rank">No. 2 · Regulatory</span>
+        <h3>The DEA makes its own case for Schedule III — and still won't say when a decision comes</h3>
+        <p>Chief Administrative Law Judge Derek Julius received post-hearing briefs on schedule <b>Aug. 17</b>, and the notable filer was the DEA itself: the agency's own brief urges Julius to recommend moving marijuana from Schedule I to Schedule III, the clearest documentary confirmation yet that its position hasn't wavered since April's order. Opposition briefs came from Smart Approaches to Marijuana, the states of Idaho, Indiana and Nebraska, the Tennessee Bureau of Investigation and others. No outlet has reported a timeline for Julius's recommended decision — trade coverage points to "weeks or months," then a 20-day exceptions window, then a final call from the DEA Administrator that may not land before late 2026 or early 2027. On <b>Aug. 19</b>, a bipartisan group of representatives (Titus, Joyce, Omar, Steube) sent a letter pressing the Trump administration for Schedule III implementation guidance — including whether Medicare will cover medical cannabis — with answers requested by Sept. 30. On <b>Aug. 20</b>, Julius ordered the 11-day hearing transcript corrected by Aug. 26, a procedural step rather than a signal on timing.</p>
+      </div>
+      <div class="callout">
+        <span class="lab">Why it matters to PGP</span>
+        A DEA brief explicitly arguing for Schedule III is the strongest paper evidence yet that the agency's advocacy hasn't shifted — but with zero attached timeline, 280E relief remains a "when, not if" bet that keeps sliding further out in diligence models. The bipartisan congressional letter is itself a signal worth tracking: political patience with the DEA's silence is thinning, and Sept. 30 is now a real date to diarize for a possible administration response, even though it moves nothing on the actual docket.
+      </div>
+
+      <div class="weekstory">
+        <span class="rank">No. 3 · Governance &amp; Litigation</span>
+        <h3>A board buys its own stock as an insurer tries to duck a class-action bill</h3>
+        <p>TerrAscend renewed and replenished its normal-course-issuer-bid on <b>Aug. 20</b> — up to $10 million, running Aug. 24, 2026 through Aug. 23, 2027 — with Executive Chairman Jason Wild telling shareholders the stock trades "at a substantial discount to intrinsic value." The renewal lands the same day as TerrAscend's special meeting on a share consolidation tied to a potential U.S. uplisting, making the buyback as much a governance-vote signal as a capital-allocation one. Separately, Cresco Labs' own insurer, Palomar Excess &amp; Surplus, sued the company in the Northern District of Illinois seeking a declaration it owes no duty to defend or indemnify Cresco against the <i>Murray et al.</i> RICO/consumer-fraud class actions spanning 12 states — shifting legal-defense cost risk back onto Cresco's balance sheet if Palomar prevails.</p>
+      </div>
+
+      <div class="weekstory">
+        <span class="rank">No. 4 · Markets</span>
+        <h3>MSOS rallies to a fresh month-to-date high, up 17% in August</h3>
+        <p>The AdvisorShares Pure US Cannabis ETF (MSOS) closed the week at $4.96 — up 6.70% versus last Friday's $4.63 and up 17.26% month-to-date versus the July 31 close of $4.23. The week's path was uneven: down Monday and Tuesday, then a sharp +5.31% Wednesday on Aurora's UK bolt-on and a broadly risk-on tape, a small Thursday pause, and a fresh +4.64% leg up Friday. Trulieve (newly uplisted to the NYSE as TRLV) and Ascend Wellness both posted the week's largest gains, each in the mid-to-high teens by percentage, though Ascend's move came with no company release found to explain it. TerrAscend and Aurora Cannabis were the next-strongest movers on M&amp;A-linked news; Vireo Growth was the week's laggard, essentially flat while it works through its pending Planet 13 and Cannabist deals.</p>
+      </div>
+
+      <div class="weekstory">
+        <span class="rank">No. 5 · State Regulatory</span>
+        <h3>States keep moving faster than Washington</h3>
+        <p>Virginia's HB 30 2-milligram THC cap took effect at midnight Aug. 15 with no appeal filed; industry groups are instead pressing lawmakers for a special legislative session as store closures mount. Rhode Island's federal court lifted its cannabis-license freeze Aug. 17, clearing roughly 20 stalled retail licenses. New Jersey formally appealed its labor-peace-mandate defeat to the Third Circuit (filed Aug. 13). Georgia's cannabis commission proposed a Schedule-III-enabled mail-delivery rule, setting a Sept. 9 comment deadline, a Sept. 16 hearing and a possible Sept. 30 vote. New Hampshire's legislature overrode a gubernatorial veto Aug. 19 to legalize greenhouse cultivation for medical operators. And Trulieve rang the NYSE closing bell Aug. 18, the first U.S. plant-touching operator to do so, marking its completed redomicile and uplisting.</p>
+      </div>
+    </div>
+
+    <aside class="rail">
+      <h3>On the Tape — Status, Not Prices</h3>
+      <div class="tape">
+        <div class="row"><span class="tk">CURA/ACB</span><span class="st">Bid formally commenced Aug 18; no counter-bid all week <span class="pill watch">Live Offer</span></span></div>
+        <div class="row"><span class="tk">ACB</span><span class="st">Buys UK's Internode/HAP Pharma amid the bid <span class="pill watch">Signal</span></span></div>
+        <div class="row"><span class="tk">TSNDF</span><span class="st">Renews $10M buyback ahead of Mon Aug 24 vote <span class="pill watch">Signal</span></span></div>
+        <div class="row"><span class="tk">CRLBF</span><span class="st">Own insurer sues to duck class-action defense <span class="pill watch">Signal</span></span></div>
+        <div class="row"><span class="tk">MSOS</span><span class="st">Closes the week at $4.96, +6.70% on the week <span class="pill up">Rally</span></span></div>
+      </div>
+      <div class="callout" style="margin-top:16px">
+        <span class="lab">Desk note</span>
+        Figures are event/status flags, not live quotes. Confirm pricing on the terminal before any client-facing use.
+      </div>
+    </aside>
+  </section>
+
+  <!-- ============ PRIORITY COVERAGE ============ -->
+  <section>
+    <p class="band">Priority Coverage · The Week</p>
+    <div class="cards">
+      <div class="card">
+        <p class="co">Ascend Wellness</p>
+        <span class="tkr">OTCQX: AAWH</span>
+        <div class="status s-live">● Quiet on filings; unexplained price move</div>
+        <ul>
+          <li>No press release, SEC filing, M&amp;A, financing, or labor development found dated Aug 14–21. Most recent material news remains the Aug 12 Q2 beat ($126.1M revenue, 23.1% Adjusted EBITDA margin, net loss narrowed to $9.8M).</li>
+          <li><span class="flagmark">⚠ AAWH shares moved sharply intraday Thursday Aug 20</span> — roughly +11–12% — with no company release identified to explain the move; over the full week the stock is up in the mid-to-high teens by percentage on thin OTC volume. Flagging as an unconfirmed price signal, not a confirmed catalyst.</li>
+          <li><b>Labor:</b> no new Teamsters Local 916 grievance or organizing activity surfaced at the Barry, IL grow all week since the strike's late-July resolution.</li>
+        </ul>
+        <div class="cal">Watch: whether Thursday's price move gets an explanation; the Aug 26 proxy deadline and Aug 28 special-meeting vote on the reverse split.</div>
+      </div>
+
+      <div class="card">
+        <p class="co">Premier Group / PCF</p>
+        <span class="tkr">Private · California</span>
+        <div class="status s-quiet">● Quiet all week</div>
+        <ul>
+          <li>Privately held CA operator, ~19 dispensaries statewide. Flagship <b>PCF</b> (Patient Care First — PCF Ceres / 209) in Modesto–Ceres; sisters include Flavors Santa Cruz, X1 Tracy, pHenos Modesto, Firehouse Turlock.</li>
+          <li>Direct CA DCC license-lookup and compliance-action-log checks across multiple days this week (PCF of Ceres, PCF of Ceres 2, X1 Tracy) show all entities active and in good standing, with no enforcement actions, suspensions, or August 2026 compliance-log entries naming any Premier Group brand.</li>
+          <li>No Modesto Bee, Turlock Journal, or Santa Cruz Sentinel item naming any Premier Group brand surfaced in any daily sweep across the full Aug 15–21 window.</li>
+        </ul>
+        <div class="cal">No CA DCC enforcement action or Modesto/Stanislaus/Santa Cruz local-press item found across the full week — a clean confirmation, not just an absent search.</div>
+      </div>
+
+      <div class="card">
+        <p class="co">Verano Holdings</p>
+        <span class="tkr">Cboe CA: VRNO</span>
+        <div class="status s-live">● New: national beverage-brand launch</div>
+        <ul>
+          <li>Verano entered the cannabis-beverage category <b>Aug 20</b> with <b>Easy Landings</b>, its first national THC beverage brand — 100mg single-serve, 2oz shots in four flavors — which went on sale <b>Aug 21</b> at Zen Leaf dispensaries and third-party partners in Arizona, Illinois and Nevada; New Jersey follows Aug 28.</li>
+          <li>No other press release, M&amp;A, financing, state entry/exit, regulatory, leadership or labor item found dated Aug 14–21 beyond the beverage launch. Most recent substantive prior news remains the Aug 5 Q2 print (revenue $218M, +8% YoY; adjusted EBITDA $51M) and the Aug 11 Canaccord Genuity conference appearance.</li>
+          <li>$195M growth term loan (9.5% all-in, matures 2029) — no new draw, covenant, or amendment news in the window.</li>
+        </ul>
+        <div class="cal">Watch: initial sell-through data on Easy Landings; the Aug 28 New Jersey rollout.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SECTOR TAPE / MSOS ============ -->
+  <section>
+    <p class="band">The Sector Tape · MSOS &amp; the MSO Complex — The Week</p>
+    <div class="docket">
+      <div>
+        <h2 class="hed" style="font-size:22px;margin-bottom:6px">MSOS closes the week at $4.96, its highest month-to-date print of August</h2>
+        <p class="dek" style="margin:0 0 12px">The AdvisorShares Pure US Cannabis ETF (NYSE Arca: MSOS) closed <b>Friday, Aug 21</b> at <b>$4.96</b>, up <b>4.64%</b> on the day, <b>6.70%</b> on the week versus last Friday's $4.63 close, and <b>17.26%</b> month-to-date versus the July 31 close of $4.23. <span style="font-size:12px">(stockanalysis.com. Volume for Friday's session is not reported here: two pulls from the same source produced conflicting figures — 6,194,542 vs. 4,510,571 shares — that could not be reconciled by this edition's close; treat volume as unconfirmed pending a second source.)</span></p>
+        <p style="font-size:14px;margin:.4em 0">The week's path was uneven — down Monday (-1.94%) and Tuesday (-0.44%), a sharp +5.31% Wednesday on Aurora's UK bolt-on news and a broadly risk-on tape, a small Thursday pause (-0.42%), then a fresh +4.64% leg up Friday. <b>Trulieve</b> (newly uplisted to the NYSE as TRLV) and <b>Ascend Wellness</b> led the week's gainers, both in the mid-to-high teens by percentage — Trulieve's move tracks its completed uplisting, while Ascend's carries no confirmed catalyst (see Priority Coverage). <b>TerrAscend</b> and <b>Aurora Cannabis</b> were the next-strongest movers on M&amp;A-linked news, with Aurora's own UK acquisition and Curaleaf's formally commenced bid both in play. <b>Vireo Growth</b> was the week's clear laggard, essentially flat while its Planet 13 and Cannabist deals remain unclosed.</p>
+        <div class="tablewrap" style="margin-top:14px">
+          <table>
+            <thead><tr><th>Ticker</th><th>Company</th><th>1-Week (Aug 14→21)</th></tr></thead>
+            <tbody>
+              <tr><td class="deal">TRLV</td><td>Trulieve</td><td class="up">+15.0%</td></tr>
+              <tr><td class="deal">AAWH</td><td>Ascend Wellness</td><td class="up">~+15% (wide range, thin OTC)</td></tr>
+              <tr><td class="deal">TSNDF</td><td>TerrAscend</td><td class="up">~+8.8%</td></tr>
+              <tr><td class="deal">ACB</td><td>Aurora Cannabis</td><td class="up">+7.1%</td></tr>
+              <tr><td class="deal">CRLBF</td><td>Cresco Labs</td><td class="up">+6.5%</td></tr>
+              <tr><td class="deal">PLNH</td><td>Planet 13</td><td class="up">~+6.5%</td></tr>
+              <tr><td class="deal">CURLF</td><td>Curaleaf</td><td class="up">+5.5%</td></tr>
+              <tr><td class="deal">GTBIF</td><td>Green Thumb</td><td class="up">~+5.0%</td></tr>
+              <tr><td class="deal">GLAS</td><td>Glass House Brands</td><td class="up">+4.0%</td></tr>
+              <tr><td class="deal">JUSH</td><td>Jushi Holdings</td><td class="up">+2.2% (Aug 20 data only)</td></tr>
+              <tr><td class="deal">VRNO</td><td>Verano</td><td class="up">~+1.9%</td></tr>
+              <tr><td class="deal">VREOF</td><td>Vireo Growth</td><td class="up">+0.6%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="nextbox">
+        <h4>Data Note — This Edition</h4>
+        <p style="font-size:13px;margin:0 0 10px">MSOS level, weekly &amp; MTD move reflect the <b>Aug 21 close</b> per <b>stockanalysis.com</b>. Constituent weekly moves compare the Aug 14 close to the latest available close (Aug 21 for most names). Where cross-source figures disagreed on thin OTC names (Ascend, Verano, Planet 13, TerrAscend's OTCQX/TSX conversion), a range or approximate figure is shown rather than false precision. Note two ticker changes surfaced this run: Glass House Brands now trades as NYSE:GLAS (formerly OTC:GLASF) and Jushi Holdings as OTCQX:JUSH (formerly JUSHF).</p>
+        <div class="callout" style="margin:0;background:transparent;border-left-color:var(--pine)">
+          <span class="lab">Excluded this run</span>
+          AYR Wellness (AYRWF) remains omitted: its quote has been frozen at $0.00 across multiple sessions and sources, consistent with its ongoing CCAA court-supervised wind-down following the transfer of its FL/NJ/NV operating assets to creditor vehicle Arboretum Bidco — there is no real price discovery to report. None of the figures above are fabricated.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ M&A TRACKER ============ -->
+  <section>
+    <p class="band">M&amp;A &amp; Financing Deal Tracker — The Week, Plus Still-Open Deals</p>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>Deal</th><th>What</th><th>Status</th><th>Date</th><th>Source</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="deal">Curaleaf → Aurora Cannabis</span></td>
+            <td>Take-over bid formally commenced: Offer and Take-Over Bid Circular mailed to shareholders. US$4.00/share implied (0.3463 CURLF shares + $0.75 cash), capped at $5.00/share, ~45% premium to 30-day VWAP; no financing/diligence condition; expires 5pm MT Dec 1, 2026 unless extended. Aurora's special committee has adopted no poison pill and issued no recommendation; Directors' Circular due ~Sept 2.</td>
+            <td><span class="tag t-ann">Formal Offer</span></td>
+            <td class="date">Aug 18 '26</td>
+            <td>SEC EDGAR · BNN Bloomberg</td>
+          </tr>
+          <tr>
+            <td><span class="deal">Aurora Cannabis → Internode Pharma / HAP Pharma</span></td>
+            <td>Acquired UK-based Internode Pharma (licensed importer/wholesaler) and HAP Pharma (Birmingham pharmacy) for ~£2.1M cash, tightening Aurora's own UK medical-cannabis distribution — closed five days into fielding Curaleaf's hostile bid.</td>
+            <td><span class="tag t-close">Closed</span></td>
+            <td class="date">Aug 19 '26</td>
+            <td>PR Newswire</td>
+          </tr>
+          <tr>
+            <td><span class="deal">Insurer (Palomar) v. Cresco Labs</span></td>
+            <td>Palomar Excess &amp; Surplus Insurance sued Cresco in the Northern District of Illinois seeking a declaration it owes no duty to defend or indemnify Cresco against the <i>Murray et al.</i> RICO/consumer-fraud class actions spanning 12 states.</td>
+            <td><span class="tag t-court">Litigation</span></td>
+            <td class="date">Aug 14–19 '26</td>
+            <td>MJBizDaily · Bloomberg Law</td>
+          </tr>
+          <tr>
+            <td><span class="deal">TerrAscend — $10M buyback renewal</span></td>
+            <td>Renews and replenishes its normal-course-issuer-bid, up to 58,784 shares/day via Cormark, running Aug 24 '26 through Aug 23 '27; prior program repurchased 653,500 shares for ~$417K at an average $0.64. Lands the same day as TerrAscend's Aug 24 special meeting on a share consolidation.</td>
+            <td><span class="tag t-close">Active</span></td>
+            <td class="date">Aug 20 '26</td>
+            <td>BNN Bloomberg</td>
+          </tr>
+          <tr>
+            <td><span class="deal">IM Cannabis → Slil.com Holding</span></td>
+            <td>Definitive agreement to sell IMC Holdings (European assets: Adjupharm GmbH, Xinteza API) for ~C$3.0M in prior advances plus assumption of up to ~C$9.4M in liabilities; expected to lift shareholders' equity by ~C$3.0M. Company retains its core Israeli medical-cannabis business. Closing outside date Sept 30, 2026.</td>
+            <td><span class="tag t-ann">Announced</span></td>
+            <td class="date">Aug 16 '26</td>
+            <td>PR Newswire · SEC 6-K</td>
+          </tr>
+          <tr>
+            <td><span class="deal">Vireo Growth — share buyback program</span></td>
+            <td>Normal-course issuer bid (up to 2,426,872 subordinate voting shares, ~5% of float) commenced Aug 17, running to Aug 17, 2027, via an automatic plan with Haywood Securities, max price US$18.75/share.</td>
+            <td><span class="tag t-close">Active</span></td>
+            <td class="date">Aug 17 '26</td>
+            <td>GlobeNewswire</td>
+          </tr>
+          <tr>
+            <td><span class="deal">Vireo Growth → Planet 13</span></td>
+            <td>All-stock merger; 0.015383618 Vireo shares per Planet 13 share, a ~24% premium to the Jul 24 close. Form S-4 registration/proxy still in process; shareholder vote date not yet set.</td>
+            <td><span class="tag t-ann">Pending</span></td>
+            <td class="date">Jul 27 '26</td>
+            <td>GlobeNewswire · SEC 425</td>
+          </tr>
+          <tr>
+            <td><span class="deal">Vireo Growth → The Cannabist Co.</span></td>
+            <td>Definitive asset purchase agreement across CO, IL, MA, NJ and WV, up to $35M ($18.75M cash + $16.25M seller notes), out of Cannabist's bankruptcy estate; staged closings into 2027. No update this window.</td>
+            <td><span class="tag t-ann">Announced</span></td>
+            <td class="date">Jul '26</td>
+            <td>StockTitan · GlobeNewswire</td>
+          </tr>
+          <tr>
+            <td><span class="deal">The Cannabist Company — equipment auction</span></td>
+            <td>Heritage Global Partners' auction of former processing/production equipment (Vineland NJ, Denver CO, Aurora IL) closed bidding Aug 14; winning bids and proceeds remain undisclosed a full week later. Part of the Chapter 15 (Delaware)/CCAA (Ontario) wind-down, ~$270M owed to lenders/IRS.</td>
+            <td><span class="tag t-court">Results Pending</span></td>
+            <td class="date">Aug 14 '26</td>
+            <td>Heritage Global Partners</td>
+          </tr>
+          <tr>
+            <td><span class="deal">AYR Wellness → Arboretum Bidco</span></td>
+            <td>FL/NJ/NV operations transferred to a creditor vehicle under a $275M exit facility; CCAA wind-down continues in BC Supreme Court. Quote remains frozen at $0.00; no Q2 2026 earnings release found on AYR's IR page.</td>
+            <td><span class="tag t-court">Court / Closed</span></td>
+            <td class="date">Jun 2 '26</td>
+            <td>GlobeNewswire</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">
+      <span class="lab">Why it matters to PGP</span>
+      Three sourcing lanes keep running in parallel: a <b>hostile, cash-plus-stock bid for a non-U.S. federally-legal platform</b> (Curaleaf/Aurora) that now carries a hard December expiry and a target still actively dealmaking through the fight; <b>Vireo's roll-up</b>, which paused on new-target announcements this week but kept its buyback active mid-spree; and the <b>distressed/creditor lane</b> (Cannabist's still-undisclosed auction proceeds, AYR's frozen quote, IM Cannabis's balance-sheet cleanup) continuing to generate real recovery-value data points. Watch the Cannabist auction results — now a week overdue — for a read on distressed-equipment recovery values, and Aurora's Sept. 2 Directors' Circular for the clearest signal yet on how the special committee will respond.
+    </div>
+  </section>
+
+  <!-- ============ RESCHEDULING DOCKET ============ -->
+  <section>
+    <p class="band">The Rescheduling Docket</p>
+    <div class="docket">
+      <div>
+        <h2 class="hed" style="font-size:22px;margin-bottom:6px">The federal record is fully briefed; the states keep setting the pace</h2>
+        <p class="dek" style="margin:0 0 14px">The DEA's own brief argues for Schedule III, Congress presses the White House for a timeline, and a housekeeping transcript order is the only concrete date on the federal calendar — while five separate states moved on cannabis or hemp policy in the same week.</p>
+        <ul class="timeline">
+          <li class="done"><span class="d">Aug 15, 2026</span> Virginia's HB 30 2mg-per-package THC cap takes effect at midnight, following Judge Ballou's denied injunction; retailers pulled an estimated 85–90% of affected inventory ahead of the deadline.</li>
+          <li class="done"><span class="d">Aug 13, 2026</span> New Jersey regulators file a notice of appeal to the Third Circuit over the labor-peace-mandate preemption ruling that favored Curaleaf — a ruling there would also bind Pennsylvania and Delaware.</li>
+          <li class="done"><span class="d">Aug 17, 2026</span> DEA post-hearing brief deadline is met: the agency's own brief urges Chief ALJ Derek Julius to recommend Schedule III; opposition briefs filed by SAM, Idaho/Indiana/Nebraska, the Tennessee Bureau of Investigation and others.</li>
+          <li class="done"><span class="d">Aug 17, 2026</span> Virginia hemp plaintiffs confirm no appeal filed; industry instead presses lawmakers for a special legislative session as store closures mount.</li>
+          <li class="done"><span class="d">Aug 17, 2026</span> A federal judge dissolves Rhode Island's cannabis-license injunction after the state repeals its residency requirement, clearing ~20 frozen retail licenses and ~100 applicants to resume.</li>
+          <li class="done"><span class="d">Aug 18, 2026</span> Georgia's Access to Medical Cannabis Commission proposes a Schedule-III-enabled mail-delivery rule, citing DOJ's April reclassification as the legal enabler.</li>
+          <li class="done"><span class="d">Aug 19, 2026</span> Reps. Titus, Joyce, Omar and Steube send a bipartisan letter pressing the Trump administration for Schedule III implementation guidance, including whether Medicare will cover medical cannabis, with answers requested by Sept 30.</li>
+          <li class="done"><span class="d">Aug 19, 2026</span> New Hampshire's legislature overrides a gubernatorial veto (Senate 16-8, House 257-44), legalizing greenhouse cultivation for medical-marijuana operators.</li>
+          <li class="done"><span class="d">Aug 20, 2026</span> Chief ALJ Julius orders the 11-day rescheduling-hearing transcript corrected, due on the DEA's website by Aug 26 — procedural, not a signal on the recommended decision's timing.</li>
+        </ul>
+      </div>
+      <div class="nextbox">
+        <h4>What's Next on the Docket</h4>
+        <ol>
+          <li><b>Mon, Aug 24, 2026</b> — TerrAscend special shareholder meeting on a share consolidation tied to a potential U.S. uplisting.</li>
+          <li><b>Wed, Aug 26, 2026</b> — corrected DEA hearing transcript due on the agency's website; also Ascend Wellness's proxy-voting deadline ahead of its Aug 28 meeting.</li>
+          <li><b>Fri, Aug 28, 2026</b> — Ascend Wellness special meeting on its reverse stock split; also Verano's Easy Landings beverage brand launches in New Jersey.</li>
+          <li><b>Mon, Aug 31, 2026</b> — the U.S. House returns from recess; a floor vote on the hemp-THC ban delay is expected in September.</li>
+          <li><b>~Sept 2, 2026</b> — Aurora's Directors' Circular recommendation on the Curaleaf bid is due.</li>
+          <li><b>Sept 9 / 16 / 30, 2026</b> — Georgia's mail-delivery rule comment deadline, public hearing, and possible adoption vote.</li>
+          <li><b>Sept 30, 2026</b> — deadline lawmakers gave the Trump administration to answer their rescheduling-implementation letter.</li>
+          <li><b>Dec 1, 2026</b> — Curaleaf's formally commenced bid for Aurora Cannabis expires unless extended.</li>
+          <li><b>Dec 11, 2026</b> — the federal hemp-THC ban takes effect. Watch Alabama's Board of Health 280E/opt-out ruling, still pending since its comment period closed Aug 5, and any Virginia special-session movement.</li>
+        </ol>
+        <div class="callout" style="margin:14px 0 0;background:transparent;border-left-color:var(--pine)">
+          <span class="lab">Why it matters to PGP</span>
+          The federal rescheduling docket is now fully briefed with the agency's own advocacy on record — yet has produced no decision timeline, so 280E-relief modeling should keep treating the benefit as "when, not if." Meanwhile five states moved independently in a single week (Virginia's cap took effect, Rhode Island reopened licensing, Georgia built a delivery channel off Schedule III, New Jersey escalated its labor-peace fight, New Hampshire loosened cultivation rules) — state-specific outcomes remain the faster-moving, more diligence-relevant variable than the still-undated federal calendar.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ INDUSTRY HEADLINES ============ -->
+  <section>
+    <p class="band">Industry Headlines</p>
+    <div class="twocol">
+      <div class="hl">
+        <h3>Trulieve rings the NYSE closing bell</h3>
+        <p>The first U.S. plant-touching cannabis operator to do so, marking its completed British Columbia-to-Delaware redomicile and uplisting under ticker TRLV. <span class="src">MJBizDaily · CRB Monitor</span></p>
+      </div>
+      <div class="hl">
+        <h3>Rhode Island's cannabis license freeze lifts</h3>
+        <p>A federal judge dissolves her April injunction after the state repeals its residency requirement and the First Circuit dismisses the underlying suits, clearing ~20 licenses and ~100 applicants to resume. <span class="src">Rhode Island Current · Law360</span></p>
+      </div>
+      <div class="hl">
+        <h3>New Jersey appeals its labor-peace ruling to the Third Circuit</h3>
+        <p>State regulators formally challenge the Aug 10 federal ruling that found the cannabis labor-peace-agreement mandate preempted by the NLRA — a Curaleaf win now headed to an appellate court that also covers Pennsylvania and Delaware. <span class="src">Cannabis Business Times</span></p>
+      </div>
+      <div class="hl">
+        <h3>Georgia sets hearing and vote dates on mail-delivery rule</h3>
+        <p>The state's medical-cannabis commission scheduled a Sept 16 public hearing and possible Sept 30 adoption vote on letting USPS and private carriers deliver to registered patients, citing federal rescheduling as the legal basis. <span class="src">MJBizDaily · Cannabis Business Times</span></p>
+      </div>
+      <div class="hl">
+        <h3>New Hampshire overrides veto on medical-cannabis greenhouses</h3>
+        <p>The legislature reversed Gov. Ayotte's veto of SB 468, letting therapeutic cannabis centers cultivate in a secure greenhouse to ease indoor-lighting cost pressure on patients. <span class="src">Marijuana Moment</span></p>
+      </div>
+      <div class="hl">
+        <h3>AYR opens the Shenandoah Valley's first medical dispensary</h3>
+        <p>The Winchester, VA store is the first in the state's Health Service Area I; AYR plans an in-house harvest there by January, even as its FL/NJ/NV operations remain under the Arboretum Bidco creditor vehicle. <span class="src">WMRA</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WEEK AHEAD ============ -->
+  <section>
+    <p class="band">The Week Ahead · Calendar</p>
+    <div class="calbox">
+      <div class="calrow"><span class="cd">Mon, Aug 24</span><span class="ce"><b>TerrAscend special shareholder meeting</b> — vote on a share consolidation tied to a potential U.S. exchange uplisting.</span></div>
+      <div class="calrow"><span class="cd">Wed, Aug 26</span><span class="ce"><b>Corrected DEA hearing transcript due</b> on the agency's website; also Ascend Wellness's proxy-voting deadline ahead of its Aug 28 special meeting.</span></div>
+      <div class="calrow"><span class="cd">Fri, Aug 28</span><span class="ce"><b>Ascend Wellness special meeting</b> — vote on a 1-for-10 to 1-for-50 reverse stock split; <b>Verano's Easy Landings</b> beverage brand launches in New Jersey.</span></div>
+      <div class="calrow"><span class="cd">Mon, Aug 31</span><span class="ce"><b>U.S. House returns from recess</b> — a floor vote on the hemp-THC ban delay is expected in September.</span></div>
+      <div class="calrow"><span class="cd">~Wed, Sept 2</span><span class="ce"><b>Aurora Cannabis's Directors' Circular</b> recommendation on the Curaleaf bid is due under Canadian take-over rules.</span></div>
+      <div class="calrow"><span class="cd">Sept 9 / 16 / 30</span><span class="ce"><b>Georgia's mail-delivery rule</b> — comment deadline, public hearing, and possible adoption vote.</span></div>
+      <div class="calrow"><span class="cd">Wed, Sept 30</span><span class="ce"><b>Deadline for the Trump administration</b> to answer lawmakers' rescheduling-implementation letter.</span></div>
+      <div class="calrow"><span class="cd">Tue, Dec 1</span><span class="ce"><b>Curaleaf's take-over bid for Aurora Cannabis expires</b> unless extended.</span></div>
+      <div class="calrow"><span class="cd">Fri, Dec 11</span><span class="ce"><b>Federal hemp-THC ban takes effect.</b> Watch Alabama's still-pending State Board of Health 280E/opt-out ruling.</span></div>
+    </div>
+  </section>
+
+  <!-- ============ SOURCES ============ -->
+  <section>
+    <p class="band">Sources — Reviewed This Week</p>
+    <ul class="sources">
+      <li><a href="https://www.sec.gov/Archives/edgar/data/0001756770/000162828026057556/a81826circular.htm">SEC EDGAR</a> and <a href="https://www.bnnbloomberg.ca/business/company-news/2026/08/18/curaleaf-launches-us260-million-takeover-bid-for-canadian-producer-aurora-cannabis/">BNN Bloomberg</a> — Curaleaf's formally commenced Offer and Take-Over Bid Circular for Aurora Cannabis (Aug 18).</li>
+      <li><a href="https://www.prnewswire.com/news-releases/aurora-cannabis-inc-urges-shareholders-to-take-no-action-at-this-time-in-respect-to-the-unsolicited-take-over-bid-by-curaleaf-holdings-inc-302854811.html">PR Newswire</a> — Aurora's "take no action" statement.</li>
+      <li><a href="https://www.prnewswire.com/news-releases/aurora-cannabis-furthers-global-medical-cannabis-growth-with-accretive-acquisition-of-internode-pharma-limited-and-hap-pharma-limited-expanding-distribution-access-to-the-uk-medical-cannabis-market-302855564.html">PR Newswire</a> — Aurora Cannabis's acquisition of Internode Pharma and HAP Pharma (Aug 19).</li>
+      <li><a href="https://www.marijuanamoment.net/dea-and-anti-marijuana-groups-file-final-briefs-in-hearing-on-trump-administration-rescheduling-proposal/">Marijuana Moment</a> — DEA and opposition groups file final post-hearing briefs (Aug 17-19).</li>
+      <li><a href="https://www.marijuanamoment.net/bipartisan-lawmakers-press-trump-for-marijuana-rescheduling-guidance-including-whether-medicare-will-cover-medical-cannabis">Marijuana Moment</a> — bipartisan lawmakers' letter pressing for rescheduling implementation guidance (Aug 19).</li>
+      <li><a href="https://themarijuanaherald.com/2026/08/dea-judge-orders-marijuana-rescheduling-hearing-transcript-corrected-updated-version-due-august-26/">The Marijuana Herald</a> — DEA chief ALJ's order to correct the rescheduling-hearing transcript (Aug 20).</li>
+      <li><a href="https://www.cannabisbusinesstimes.com/finance/news/15832983/terrascend-announces-renewal-replenishment-of-10-million-share-repurchase-program">Cannabis Business Times</a> — TerrAscend's renewed and replenished $10M share-buyback program (Aug 20).</li>
+      <li><a href="https://mjbizdaily.com/news/insurance-carrier-sues-major-marijuana-mso-to-dodge-class-action-payout/617516/">MJBizDaily</a> — Palomar Excess &amp; Surplus's coverage-dispute lawsuit against Cresco Labs.</li>
+      <li><a href="https://www.globenewswire.com/news-release/2026/08/20/3348223/0/en/verano-enters-cannabis-beverage-category-with-debut-of-easy-landings-company-s-first-national-beverage-brand-featuring-four-delicious-flavors-and-all-natural-ingredients.html">GlobeNewswire</a> — Verano's Easy Landings beverage-brand launch.</li>
+      <li><a href="https://www.prnewswire.com/news-releases/im-cannabis-enters-into-agreement-to-sell-imc-holdings-and-european--focused-assets-302852768.html">PR Newswire</a> — IM Cannabis's agreement to sell its European-focused assets (Aug 16).</li>
+      <li><a href="https://www.globenewswire.com/news-release/2026/08/13/3344379/0/en/vireo-growth-inc-announces-share-buyback-program.html">GlobeNewswire</a> — Vireo Growth's share buyback program and ongoing Planet 13 / Cannabist deal updates.</li>
+      <li><a href="https://www.hgpauction.com/hgp-to-auction-cannabis-processing-and-production-equipment-from-the-cannabist-company/">Heritage Global Partners</a> — Cannabist Company equipment auction (closed Aug 14, results pending).</li>
+      <li><a href="https://virginiamercury.com/2026/08/17/federal-judge-denies-hemp-entrepreneurs-request-to-overturn-virginias-new-thc-limit/">Virginia Mercury</a> and <a href="https://cardinalnews.org/2026/08/14/judge-declines-to-delay-thc-rule-change-for-hemp-products/">Cardinal News</a> — Virginia's HB 30 THC-cap ruling, effective date, and special-session push.</li>
+      <li><a href="https://rhodeislandcurrent.com/2026/08/17/federal-judge-clears-path-for-ri-cannabis-retail-license-process-to-begin-anew/">Rhode Island Current</a> — the state's cannabis-licensing injunction dissolved.</li>
+      <li><a href="https://www.cannabisbusinesstimes.com/us-states/new-jersey/news/15832426/judge-rules-federal-law-preempts-nj-cannabis-labor-peace-mandate-deals-curaleaf-victory">Cannabis Business Times</a> — New Jersey's Third Circuit appeal of the labor-peace preemption ruling.</li>
+      <li><a href="https://mjbizdaily.com/news/does-federal-marijuana-rescheduling-mean-medical-cannabis-can-be-mailed-georgia-thinks-so/617437/">MJBizDaily</a> — Georgia's proposed mail-delivery rule and hearing/vote dates.</li>
+      <li><a href="https://www.marijuanamoment.net/new-hampshire-lawmakers-override-governors-veto-of-bill-allowing-medical-marijuana-cultivation-in-greenhouses">Marijuana Moment</a> — New Hampshire's veto override on medical-cannabis greenhouse cultivation.</li>
+      <li><a href="https://www.wmra.org/2026-08-19/areas-first-medical-cannabis-dispensary-opens-in-winchester">WMRA</a> — AYR Wellness opens Winchester, VA's first medical-cannabis dispensary.</li>
+      <li><a href="https://real.cannabis.ca.gov">CA Dept. of Cannabis Control</a> — license and compliance-action lookups for Premier Group / PCF entities (PCF of Ceres, PCF of Ceres 2, X1 Tracy).</li>
+      <li><a href="https://investors.awholdings.com/news-events/news-releases">Ascend Wellness IR</a> and <a href="https://investors.verano.com">Verano Holdings IR</a> — direct newsroom checks, both quiet beyond items noted above.</li>
+      <li><a href="https://stockanalysis.com/etf/msos/">stockanalysis.com</a> — MSOS and constituent price/volume data, Aug 21 close.</li>
+    </ul>
+  </section>
+
+  <!-- ============ COLOPHON ============ -->
+  <div class="colophon">
+    <p><b>About this edition.</b> Compiled Friday afternoon, Aug 21, 2026, covering the trailing seven days (Aug 15–21). It draws on the week's five daily editions plus a dedicated Friday-afternoon research pass: a fresh IR-page check on Ascend Wellness and Verano Holdings directly, a confirming sweep for any Friday-afternoon developments on the Curaleaf/Aurora bid, TerrAscend, and Cresco Labs, a sector-wide M&amp;A/financing re-check, a rescheduling-docket confirmation, and updated CA DCC/local-press checks for Premier Group/PCF. Priority names (Ascend, Premier/PCF, Verano) and each MSO watchlist name were queried individually, separately from the sector-wide sweep, per this desk's standing methodology. MSOS and constituent weekly moves reflect the Aug 21 close via stockanalysis.com; Friday's volume figure could not be reconciled between two pulls from the same source and is reported as unconfirmed rather than guessed. AYR Wellness (AYRWF) is withheld from the sector-tape table because its quote remains frozen at $0.00 amid its CCAA wind-down. Calendar items (deadlines, votes, pending rulings) are scheduled or pending events, not completed actions.</p>
+    <p><b>On imagery.</b> Editorial spot-art and status flags are original to this briefing; third-party news photographs are not reproduced (licensing). Company logos or price charts can be added on request. <b>Not investment advice.</b> Figures on "the tape" are event flags, not quotes — verify pricing before client use.</p>
+    <p><b>The Cannabis Ledger</b> · PGP Capital Advisors · Deal-Desk Intelligence · Weekly Roundup</p>
+  </div>
+
+</div>
+
+</body>
+</html>
