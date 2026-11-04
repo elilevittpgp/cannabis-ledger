@@ -1,0 +1,557 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Cannabis Ledger — Wednesday, November 4, 2026</title>
+<style>
+  :root{
+    --paper:#f6f6f0; --paper-2:#efefe6; --panel:#eae9dd;
+    --ink:#16170f; --ink-soft:#474839; --ink-faint:#6d6e5d;
+    --hair:#cdcdbd; --rule:#16170f;
+    --pine:#1f4d2e; --pine-soft:#3c6b4a;
+    --gain:#1c7a48; --loss:#b0392c; --flag:#9a5b12;
+    --serif:Georgia,"Times New Roman",Times,serif;
+    --sans:"Helvetica Neue",Helvetica,Arial,sans-serif;
+    --mono:"SF Mono",ui-monospace,"Courier New",monospace;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --paper:#14150d; --paper-2:#1b1c12; --panel:#202115;
+      --ink:#ecece0; --ink-soft:#b0b1a0; --ink-faint:#84856f;
+      --hair:#34362a; --rule:#4a4c3c;
+      --pine:#77b389; --pine-soft:#9ccaa9;
+      --gain:#54c088; --loss:#e28a79; --flag:#d0a24e;
+    }
+  }
+  :root[data-theme="dark"]{
+      --paper:#14150d; --paper-2:#1b1c12; --panel:#202115;
+      --ink:#ecece0; --ink-soft:#b0b1a0; --ink-faint:#84856f;
+      --hair:#34362a; --rule:#4a4c3c;
+      --pine:#77b389; --pine-soft:#9ccaa9;
+      --gain:#54c088; --loss:#e28a79; --flag:#d0a24e;
+  }
+  :root[data-theme="light"]{
+      --paper:#f6f6f0; --paper-2:#efefe6; --panel:#eae9dd;
+      --ink:#16170f; --ink-soft:#474839; --ink-faint:#6d6e5d;
+      --hair:#cdcdbd; --rule:#16170f;
+      --pine:#1f4d2e; --pine-soft:#3c6b4a;
+      --gain:#1c7a48; --loss:#b0392c; --flag:#9a5b12;
+  }
+
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ink);color:var(--ink)}
+  .sheet{
+    max-width:1120px;margin:0 auto;background:var(--paper);
+    padding:clamp(18px,4vw,54px) clamp(16px,4vw,56px) 40px;
+    font-family:var(--serif);line-height:1.5;
+  }
+  @media(min-width:820px){ .sheet{box-shadow:0 0 0 1px var(--hair)} }
+
+  /* ---------- Masthead ---------- */
+  .flag-top{display:flex;justify-content:space-between;align-items:center;
+    font-family:var(--sans);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--ink-soft);padding-bottom:8px;gap:12px;flex-wrap:wrap}
+  .flag-top .edt{color:var(--pine);font-weight:700}
+  .rule-2{border:0;border-top:3px double var(--rule);margin:0}
+  .rule-1{border:0;border-top:1px solid var(--rule);margin:0}
+  .hair{border:0;border-top:1px solid var(--hair);margin:0}
+  .nameplate{display:flex;align-items:center;justify-content:center;gap:18px;
+    padding:14px 0 6px;text-align:center}
+  .nameplate svg{flex:none}
+  .nameplate h1{font-size:clamp(34px,7vw,68px);line-height:.92;margin:0;
+    font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+  .nameplate .kicker{display:block;font-family:var(--sans);font-weight:700;
+    font-size:clamp(9px,1.5vw,12px);letter-spacing:.34em;color:var(--pine);
+    text-transform:uppercase;margin-bottom:6px}
+  .folio{display:flex;justify-content:space-between;align-items:center;gap:10px;
+    font-family:var(--sans);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--ink-soft);padding:7px 2px;flex-wrap:wrap}
+  .folio b{color:var(--ink)}
+
+  /* ---------- Structure ---------- */
+  section{margin-top:26px}
+  .band{font-family:var(--sans);text-transform:uppercase;letter-spacing:.18em;
+    font-size:12px;font-weight:700;color:var(--pine);
+    display:flex;align-items:center;gap:12px;margin:0 0 12px}
+  .band::after{content:"";flex:1;border-top:1px solid var(--hair)}
+  h2.hed{font-family:var(--serif);font-weight:700;text-wrap:balance;margin:0}
+  .dek{color:var(--ink-soft);font-style:italic}
+  .byline{font-family:var(--sans);font-size:10.5px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--ink-faint)}
+
+  /* ---------- Lead ---------- */
+  .lead{display:grid;grid-template-columns:1fr;gap:26px}
+  @media(min-width:860px){.lead{grid-template-columns:1.9fr 1fr;gap:34px}}
+  .lead-main h2{font-size:clamp(26px,4.4vw,42px);line-height:1.04}
+  .lead-main .sub{font-size:clamp(15px,2vw,18px);margin:.5em 0 0;color:var(--ink-soft);font-style:italic}
+  .drop::first-letter{float:left;font-size:3.6em;line-height:.72;padding:6px 10px 0 0;
+    font-weight:700;color:var(--pine)}
+  .lead-main p{margin:.85em 0}
+  .rail{border-top:2px solid var(--rule);padding-top:10px}
+  .rail h3{font-family:var(--sans);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+    margin:0 0 10px;color:var(--ink)}
+  .tape{display:flex;flex-direction:column;gap:0}
+  .tape .row{display:flex;gap:10px;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--hair);
+    font-family:var(--sans);font-size:12.5px}
+  .tape .tk{font-family:var(--mono);font-weight:700;color:var(--pine);flex:none;min-width:58px;
+    font-variant-numeric:tabular-nums}
+  .tape .st{color:var(--ink-soft)}
+  .pill{display:inline-block;font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.06em;
+    text-transform:uppercase;padding:2px 7px;border-radius:2px;border:1px solid currentColor}
+  .up{color:var(--gain)} .down{color:var(--loss)} .watch{color:var(--flag)}
+
+  .callout{background:var(--panel);border-left:3px solid var(--pine);
+    padding:12px 16px;margin:16px 0;font-size:14px}
+  .callout .lab{font-family:var(--sans);font-weight:700;font-size:10.5px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--pine);display:block;margin-bottom:4px}
+  .callout.corr{border-left-color:var(--flag)}
+  .callout.corr .lab{color:var(--flag)}
+
+  /* ---------- Priority cards ---------- */
+  .cards{display:grid;grid-template-columns:1fr;gap:1px;background:var(--hair);
+    border:1px solid var(--hair)}
+  @media(min-width:760px){.cards{grid-template-columns:repeat(3,1fr)}}
+  .card{background:var(--paper);padding:16px 16px 18px}
+  .card .co{font-family:var(--serif);font-size:20px;font-weight:700;margin:0;line-height:1.1}
+  .card .tkr{font-family:var(--mono);font-size:12px;color:var(--pine);font-weight:700}
+  .card .status{font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.08em;
+    text-transform:uppercase;margin:8px 0 10px;display:inline-block}
+  .s-quiet{color:var(--ink-faint)} .s-live{color:var(--flag)}
+  .card ul{margin:6px 0 0;padding-left:16px;font-size:13px}
+  .card li{margin:6px 0}
+  .card .cal{font-family:var(--sans);font-size:11px;color:var(--ink-soft);margin-top:12px;
+    border-top:1px solid var(--hair);padding-top:8px}
+  .flagmark{color:var(--flag);font-weight:700}
+
+  /* ---------- Deal tracker ---------- */
+  .tablewrap{overflow-x:auto;border:1px solid var(--hair)}
+  table{border-collapse:collapse;width:100%;min-width:640px;font-size:13px}
+  thead th{background:var(--panel);font-family:var(--sans);font-size:10.5px;letter-spacing:.08em;
+    text-transform:uppercase;text-align:left;padding:10px 12px;border-bottom:2px solid var(--rule);color:var(--ink)}
+  tbody td{padding:11px 12px;border-bottom:1px solid var(--hair);vertical-align:top}
+  tbody tr:last-child td{border-bottom:0}
+  td .deal{font-weight:700}
+  td.date{font-family:var(--mono);font-size:12px;white-space:nowrap;color:var(--ink-soft);
+    font-variant-numeric:tabular-nums}
+  .tag{font-family:var(--sans);font-size:9.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+    padding:2px 6px;border-radius:2px;white-space:nowrap}
+  .t-close{background:rgba(28,122,72,.14);color:var(--gain)}
+  .t-ann{background:rgba(154,91,18,.16);color:var(--flag)}
+  .t-court{background:rgba(176,57,44,.14);color:var(--loss)}
+
+  /* ---------- Docket timeline ---------- */
+  .docket{display:grid;grid-template-columns:1fr;gap:22px}
+  @media(min-width:820px){.docket{grid-template-columns:1.3fr 1fr}}
+  .timeline{list-style:none;margin:0;padding:0;border-left:2px solid var(--rule)}
+  .timeline li{position:relative;padding:0 0 16px 20px;font-size:13.5px}
+  .timeline li::before{content:"";position:absolute;left:-6px;top:5px;width:10px;height:10px;
+    border-radius:50%;background:var(--paper);border:2px solid var(--pine)}
+  .timeline li.done::before{background:var(--pine)}
+  .timeline .d{font-family:var(--mono);font-size:11.5px;color:var(--pine);font-weight:700;
+    display:block;letter-spacing:.02em}
+  .nextbox{background:var(--panel);padding:16px;align-self:start}
+  .nextbox h4{font-family:var(--sans);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    margin:0 0 10px;color:var(--pine)}
+  .nextbox ol{margin:0;padding-left:18px;font-size:13px}
+  .nextbox li{margin:7px 0}
+
+  /* ---------- Headlines / two-col ---------- */
+  .twocol{columns:2;column-gap:34px;column-rule:1px solid var(--hair)}
+  @media(max-width:640px){.twocol{columns:1}}
+  .hl{break-inside:avoid;margin:0 0 15px;padding-bottom:14px;border-bottom:1px solid var(--hair)}
+  .hl h3{font-family:var(--serif);font-size:17px;font-weight:700;margin:0 0 4px;line-height:1.18}
+  .hl p{margin:0;font-size:13px;color:var(--ink-soft)}
+  .hl .src{font-family:var(--sans);font-size:10px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--pine);font-weight:700}
+
+  /* ---------- Notable ---------- */
+  .notable{list-style:none;margin:0;padding:0;
+    display:grid;grid-template-columns:1fr;gap:0}
+  .notable li{display:flex;gap:12px;align-items:baseline;padding:11px 0;border-bottom:1px solid var(--hair);
+    font-size:14px}
+  .notable .dt{font-family:var(--mono);font-size:11px;color:var(--pine);font-weight:700;flex:none;
+    min-width:52px;font-variant-numeric:tabular-nums}
+
+  /* ---------- Sources / colophon ---------- */
+  .sources{font-family:var(--sans);font-size:12px;color:var(--ink-soft);line-height:1.7}
+  .sources a{color:var(--pine)}
+  .sources li{margin:4px 0}
+  a{color:var(--pine);text-decoration:none;border-bottom:1px solid var(--hair)}
+  a:hover{border-bottom-color:var(--pine)}
+  a:focus-visible{outline:2px solid var(--pine);outline-offset:2px}
+  .colophon{margin-top:30px;border-top:3px double var(--rule);padding-top:14px;
+    font-family:var(--sans);font-size:11px;color:var(--ink-faint);line-height:1.7}
+  .colophon b{color:var(--ink-soft)}
+  /* ---------- Print / PDF: external-ready, controlled page breaks ---------- */
+  @media print{
+    :root{
+      --paper:#fff; --paper-2:#f3f3ea; --panel:#f0efe6;
+      --ink:#14150d; --ink-soft:#45463a; --ink-faint:#6b6c5b;
+      --hair:#c7c7b8; --rule:#14150d;
+      --pine:#1c4a2b; --pine-soft:#3a6748;
+      --gain:#1a7346; --loss:#a8362a; --flag:#8f5410;
+    }
+    @page{ size:Letter; margin:0.55in; }
+    body{ background:#fff; }
+    .sheet{ box-shadow:none; max-width:none; padding:0; }
+    /* keep headings attached to their content */
+    .band,h1,h2,h3,h4{ break-after:avoid; page-break-after:avoid; }
+    .nameplate,.folio{ break-inside:avoid; }
+    /* never split these mid-element across a page */
+    .card,.callout,.hl,.nextbox,.notable li,.timeline li,.tape .row,.colophon{
+      break-inside:avoid; page-break-inside:avoid; }
+    /* keep whole bordered boxes together — move to next page rather than split */
+    .rail,.tablewrap,.docket>div{ break-inside:avoid; page-break-inside:avoid; }
+    section{ break-inside:auto; }
+    /* stack multi-column layouts so nothing straddles a page edge */
+    .lead,.docket{ display:block; }
+    .lead-main{ margin-bottom:16px; }
+    .rail{ border-top:2px solid var(--rule); margin-top:14px; padding-top:10px; }
+    .cards{ display:block; border:0; background:transparent; }
+    .cards .card{ border:1px solid var(--hair); margin-bottom:9px; }
+    .twocol{ columns:1; }
+    /* tables: repeat header, keep rows intact */
+    table{ break-inside:auto; }
+    thead{ display:table-header-group; }
+    tr{ break-inside:avoid; page-break-inside:avoid; }
+    .tablewrap{ overflow:visible; }
+    a{ border-bottom:0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="sheet">
+
+  <!-- ============ MASTHEAD ============ -->
+  <div class="flag-top">
+    <span>Deal-Desk Intelligence</span>
+    <span class="edt">★ Daily Edition ★</span>
+    <span>Cannabis &amp; Hemp Capital Markets</span>
+  </div>
+  <hr class="rule-1">
+  <div class="nameplate">
+    <svg width="52" height="52" viewBox="0 0 52 52" aria-hidden="true">
+      <g fill="none" stroke="var(--pine)" stroke-width="1.6" stroke-linecap="round">
+        <path d="M26 47 V27"/>
+        <path d="M26 27 C26 14 20 7 12 4 C15 13 17 20 26 27"/>
+        <path d="M26 27 C26 14 32 7 40 4 C37 13 35 20 26 27"/>
+        <path d="M26 30 C24 20 16 15 6 15 C10 24 15 29 26 30"/>
+        <path d="M26 30 C28 20 36 15 46 15 C42 24 37 29 26 30"/>
+        <path d="M26 33 C25 27 19 24 11 25 C15 31 19 33 26 33"/>
+        <path d="M26 33 C27 27 33 24 41 25 C37 31 33 33 26 33"/>
+      </g>
+    </svg>
+    <div>
+      <span class="kicker">PGP Capital Advisors</span>
+      <h1>The Cannabis Ledger</h1>
+    </div>
+  </div>
+  <hr class="rule-2">
+  <div class="folio">
+    <span>Vol. I &nbsp;·&nbsp; Daily</span>
+    <span><b>Wednesday, November 4, 2026</b></span>
+    <span>Prepared for the Deal Team</span>
+  </div>
+  <hr class="rule-1">
+
+  <!-- ============ LEAD ============ -->
+  <section class="lead">
+    <div class="lead-main">
+      <p class="byline">Page One · The Big Story</p>
+      <h2 class="hed">Massachusetts Crushes the Nation's First Legalization-Repeal Vote, 76%&ndash;24%, as Curaleaf Fires Back at Aurora's Board — Calling the Organigram Deal a &ldquo;Fiduciary Breach&rdquo; — While TD Cowen Downgrades Aurora to Sell and Tells Holders to Tender Anyway</h2>
+      <p class="sub">A landslide "no" in Boston removes the sector's biggest political overhang of the year; in Canada, the Aurora fight gets uglier rather than resolved, even as the market quietly treats it as settled.</p>
+      <p class="drop">Massachusetts voters rejected Question 8 — the measure to repeal the state's decade-old adult-use cannabis law — by roughly <b>76% to 24%</b>, according to unofficial Associated Press results with 86&ndash;90% of precincts counted as of Wednesday morning. The margin blew past even the most favorable pre-election polling (61%&ndash;71% opposed) and makes Massachusetts the first state in the country to decisively defeat an organized ballot effort to undo voter-approved legalization, a decade after the original 2016 vote passed with 54% support. Had it passed, retail shops would have faced closure by 2028 and home cultivation would have been banned; instead, the state's adult-use market continues operating exactly as before. (STAT News; Marijuana Moment; NORML; Cannabis Business Times.)</p>
+      <p>In Canada, the Aurora Cannabis fight did not go quiet the way it did after past hostile-bid rounds. Hours after Organigram's C$561 million agreed deal was announced Tuesday, Curaleaf issued a same-day statement — not silence, as this desk's prior edition left open — accusing Aurora's board of "gross dereliction of their fiduciary duties" for granting Organigram due-diligence access it denied Curaleaf, and explicitly declining to withdraw or improve its own now-outbid tender, which it says "remains outstanding" through its Dec. 4, 11:59pm MT deadline. Curaleaf argues its own offer delivers better value, more deal certainty and larger synergies, and says it is still reviewing the unfiled details of Organigram's termination-fee structure. TD Cowen, meanwhile, downgraded Aurora to Sell from Buy on Wednesday — not because it dislikes the deal, but because it reads the outcome as settled and is telling shareholders the "cleaner path to value realization" is simply to tender into Organigram's offer rather than hold for upside. (PR Newswire/TradingView; The Marijuana Herald; Investing.com; MarketBeat.)</p>
+      <div class="callout">
+        <span class="lab">Why it matters to PGP</span>
+        Massachusetts' margin is the clearest evidence yet that post-rescheduling political risk to adult-use markets is smaller than the sector has priced — a repeal campaign backed by national prohibitionist money (Smart Approaches to Marijuana Action) lost by more than 3-to-1 in a swing-ish electorate, which should raise PGP's confidence in state-legalization durability as a diligence input. Separately, TD Cowen's "Sell the stock, tender the shares" call is a useful signal of how sophisticated capital is now pricing contested cannabis M&amp;A: once a strategic-backed topping bid is signed, the market treats the outcome as a probability-weighted arbitrage, not a re-rating catalyst — exactly the framing PGP should bring to any client sitting on the other side of a late, unmatched hostile bid.
+      </div>
+    </div>
+
+    <aside class="rail">
+      <h3>On the Tape — Status, Not Prices</h3>
+      <div class="tape">
+        <div class="row"><span class="tk">MSOS</span><span class="st">$4.33, -3.56% vs. Tuesday's $4.49 close, ~11.0M shares traded by 3:39pm ET <span class="pill down">Give-Back</span></span></div>
+        <div class="row"><span class="tk">ACB</span><span class="st">+0.97% to $5.21 — holding most of Tuesday's deal-news jump <span class="pill up">Steady</span></span></div>
+        <div class="row"><span class="tk">OGI</span><span class="st">+2.59% to $0.9437 — recovering part of Tuesday's dilution-driven drop <span class="pill up">Rebound</span></span></div>
+        <div class="row"><span class="tk">CURLF</span><span class="st">-5.52% to $9.59 — gives back most of Tuesday's post-earnings pop <span class="pill down">Pullback</span></span></div>
+        <div class="row"><span class="tk">GLAS</span><span class="st">+10.47% to $2.585 — the sector's lone big riser; no new disclosure found <span class="pill up">Outlier</span></span></div>
+      </div>
+      <div class="callout" style="margin-top:16px">
+        <span class="lab">Desk note</span>
+        Figures are intraday quotes as of roughly 3:15-3:40pm ET (market close is 4:00pm ET) — none are confirmed closes. Planet 13 (PLNH), AYR Wellness (AYRWF) and Jushi (JUSHF) returned inconsistent or implausible quotes across sources this run and are omitted from precise figures rather than estimated.
+      </div>
+    </aside>
+  </section>
+
+  <!-- ============ PRIORITY COVERAGE ============ -->
+  <section>
+    <p class="band">Today's Roundup · Priority Coverage</p>
+    <div class="cards">
+      <div class="card">
+        <p class="co">Ascend Wellness</p>
+        <span class="tkr">CSE: AAWH.U · OTCQX: AAWH</span>
+        <div class="status s-quiet">● Quiet · yesterday's loan confirmed, nothing new</div>
+        <ul>
+          <li>No new corporate release today. Independent sources (PR Newswire, Yahoo Finance, StockTitan) confirm yesterday's $10,995,000 CF Bank mortgage loan matches the terms this desk reported: 8.5%/year, October 2031 maturity, secured against five Illinois/Maryland/Massachusetts properties.</li>
+          <li>Reverse-split ratio (board's discretion, 1-for-10 to 1-for-50) remains unset, now 68 days after shareholder approval. No new Teamsters Local 916 news.</li>
+          <li>Q3 2026 earnings call remains confirmed for <b>Nov. 12, 2026, 5:00pm ET</b>. Shares traded near $0.40, little changed on the day; cross-source quotes still show minor variance.</li>
+        </ul>
+        <div class="cal">Watch: whether a split ratio is set before the Nov. 12 call; any use of the new mortgage proceeds toward a specific acquisition.</div>
+      </div>
+
+      <div class="card">
+        <p class="co">Premier Group / PCF</p>
+        <span class="tkr">Private · California</span>
+        <div class="status s-live">● Two standing mysteries resolved</div>
+        <ul>
+          <li><b>The March and Ash/Pacafi merger is roughly 14 months old, not five weeks:</b> independent corroboration of the San Diego Business Journal article underpinning this desk's standing "Sept. 11, 2026" merger date now points to <b>September 2025</b> — meaning PCF's absorption into March and Ash predates this desk's coverage window entirely and was never a live, developing story.</li>
+          <li><b>The "Altamont Wellness" wrinkle is resolved, not a new premises:</b> CA DCC's registry confirms license C10-0001121-LIC, doing business as "X1," is legally held by Altamont Wellness LLC at the same Tracy address this desk has always tracked — not a separate or adjacent operation. A second, distinct license at the same street (Altamont Wellness 2 LLC, DBA "Bowtie Wellness") is a different, unrelated store.</li>
+          <li>No CA DCC enforcement action or Modesto Bee/Turlock Journal/Santa Cruz Sentinel item found in window. PCF of Ceres' license remains active under "Pcf Of Ceres, Inc."</li>
+        </ul>
+        <div class="cal">This closes out the registry-lag thread this desk has carried since Oct. 16 — the underlying transaction itself was simply never recent news.</div>
+      </div>
+
+      <div class="card">
+        <p class="co">Verano Holdings</p>
+        <span class="tkr">Cboe Canada · OTCQX: VRNO</span>
+        <div class="status s-live">● New Florida store opens</div>
+        <ul>
+          <li>Opened <b>MÜV Fernandina Beach</b> (Nassau County, FL) — Verano's <b>87th Florida location</b> and <b>164th dispensary nationwide</b>; ribbon-cutting is Friday, Nov. 6. It is the company's second Nassau County store after MÜV Yulee.</li>
+          <li>No new financing, M&amp;A, or regulatory items found. $195M senior secured term loan (9.5%, matures 2029) and $20M buyback authorization (through April 2027) stand unchanged.</li>
+          <li>Shares pulled back 6.35% intraday with the broader sector give-back, after closing Tuesday up 5.76% at C$7.71 (US$5.43 OTCQX-equivalent). Haywood's Buy/C$18.75 target stands; a separately surfaced Canaccord figure could not be confirmed as current and is not reported here.</li>
+        </ul>
+        <div class="cal">Watch: Friday's Fernandina Beach ribbon-cutting; any further store-count milestones ahead of year-end.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SECTOR TAPE / MSOS ============ -->
+  <section>
+    <p class="band">The Sector Tape · MSOS &amp; the MSO Complex</p>
+    <div class="docket">
+      <div>
+        <h2 class="hed" style="font-size:22px;margin-bottom:6px">The sector gives back more than half of Tuesday's rally, with Glass House the lone exception</h2>
+        <p class="dek" style="margin:0 0 12px">MSOS traded at $4.33 intraday Wednesday (~3:39pm ET), down 3.56% from Tuesday's $4.49 close on volume of roughly 11.0 million shares. Nine of eleven checked constituents are lower; Glass House Brands is the sector's only sizable gainer on no identified company-specific news.</p>
+        <div class="tablewrap" style="margin-bottom:14px">
+          <table>
+            <thead><tr><th>Name</th><th>Ticker</th><th>Intraday Move</th><th>Driver</th></tr></thead>
+            <tbody>
+              <tr><td><span class="deal">MSOS (ETF)</span></td><td class="date">MSOS</td><td class="date" style="color:var(--loss)">-3.56%</td><td>$4.33 as of ~3:39pm ET; a broad give-back after Tuesday's Organigram-deal-driven rally to $4.49.</td></tr>
+              <tr><td><span class="deal">Glass House Brands</span></td><td class="date">GLAS</td><td class="date" style="color:var(--gain)">+10.47%</td><td>$2.585; the sector's lone large riser — no new disclosure found; extends the rebound off October's post-selloff lows.</td></tr>
+              <tr><td><span class="deal">Organigram</span></td><td class="date">OGI</td><td class="date" style="color:var(--gain)">+2.59%</td><td>$0.9437; recovers part of Tuesday's dilution-driven drop as arbitrage funds take positions.</td></tr>
+              <tr><td><span class="deal">Aurora Cannabis</span></td><td class="date">ACB</td><td class="date" style="color:var(--gain)">+0.97%</td><td>$5.21; holds most of Tuesday's deal-news surge even after TD Cowen's Sell downgrade (framed as an arb call, not a deal call).</td></tr>
+              <tr><td><span class="deal">Green Thumb</span></td><td class="date">GTBIF</td><td class="date" style="color:var(--loss)">-1.80%</td><td>$6.56; quiet ahead of tonight's Q3 2026 earnings call (5pm ET).</td></tr>
+              <tr><td><span class="deal">Trulieve</span></td><td class="date">TRLV</td><td class="date" style="color:var(--loss)">-1.47%</td><td>$11.37; pulls back after touching a fresh high on this week's DEA-registration news; reports Q3 Thursday.</td></tr>
+              <tr><td><span class="deal">Vireo Growth</span></td><td class="date">VREOF</td><td class="date" style="color:var(--loss)">-1.34%</td><td>$7.35; muted despite this week's Planet 13 meeting date and FLUENT debt-conversion news.</td></tr>
+              <tr><td><span class="deal">Curaleaf</span></td><td class="date">CURLF</td><td class="date" style="color:var(--loss)">-5.52%</td><td>$9.59; gives back most of Tuesday's post-earnings, post-Aurora-statement pop.</td></tr>
+              <tr><td><span class="deal">Cresco Labs</span></td><td class="date">CRLBF</td><td class="date" style="color:var(--loss)">-5.99%</td><td>$0.5879; no new news; reports Q3 Friday premarket.</td></tr>
+              <tr><td><span class="deal">Verano Holdings</span></td><td class="date">VRNO</td><td class="date" style="color:var(--loss)">-6.35%</td><td>$5.16 (OTCQX-equivalent); gives back part of Tuesday's gain despite today's new Florida store opening.</td></tr>
+              <tr><td><span class="deal">TerrAscend</span></td><td class="date">TSNDF</td><td class="date" style="color:var(--loss)">-7.42%</td><td>$0.5090; the session's biggest decliner among reliably-quoted names; reports Q3 Thursday.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size:14px;margin:.4em 0">Per this desk's standing rule against fabricating figures: <b>Planet 13 (PLNH)</b>, <b>AYR Wellness (AYRWF)</b> and <b>Jushi (JUSHF)</b> returned inconsistent or implausible quotes across sources this run and are omitted rather than estimated.</p>
+      </div>
+      <div class="nextbox">
+        <h4>Live Data — This Edition</h4>
+        <p style="font-size:13px;margin:0 0 10px">Pull taken intraday Wednesday Nov. 4, roughly 3:15-3:40pm ET, against Tuesday Nov. 3's close as the reference prior session. US markets close at 4:00pm ET; figures here predate the close. Sourced to stockanalysis.com quote pages.</p>
+        <div class="callout" style="margin:0;background:transparent;border-left-color:var(--pine)">
+          <span class="lab">Desk note</span>
+          Three MSOs — Green Thumb, TerrAscend and Planet 13 — report or are expected to report Q3 2026 results within the next 48 hours; tonight's Green Thumb print (after today's close) was not yet available as this edition went to print.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ M&A TRACKER ============ -->
+  <section>
+    <p class="band">M&amp;A &amp; Financing Deal Tracker</p>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>Deal</th><th>What</th><th>Status</th><th>Date</th><th>Source</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="deal">Organigram Global → Aurora Cannabis</span></td>
+            <td>Definitive arrangement agreement at C$7.80/share (cash, stock, or mixed election); ~C$561M fully diluted equity value. SEC 6-K exhibits show the arrangement carries a $25.2M termination fee payable by Aurora to Organigram, a $38.4M reverse termination fee payable by Organigram to Aurora, and a $5.6M expense-reimbursement fee if the deal fails for lack of Organigram shareholder approval (figures from filing exhibits reviewed this run; recommend a SEDAR+ cross-check before client use). TD Cowen downgraded ACB to Sell but recommends shareholders tender, viewing the outcome as effectively settled.</td>
+            <td><span class="tag t-ann">Signed · Contested, Fees Disclosed</span></td>
+            <td class="date">Nov 3-4 '26</td>
+            <td>SEC 6-K / TD Cowen note</td>
+          </tr>
+          <tr>
+            <td><span class="deal">Curaleaf → Aurora Cannabis (hostile)</span></td>
+            <td>Curaleaf issued a same-day (Nov. 3) public statement rejecting Organigram's terms, accusing Aurora's board of a fiduciary breach for granting Organigram diligence access it denied Curaleaf, and explicitly declining to raise, match, or withdraw its own now-outbid tender (~US$5.00/share implied), which "remains outstanding" through its Dec. 4, 11:59pm MT deadline.</td>
+            <td><span class="tag t-court">Bid Restated · Terms Unchanged</span></td>
+            <td class="date">Nov 3 '26</td>
+            <td>PR Newswire / The Marijuana Herald</td>
+          </tr>
+          <tr>
+            <td><span class="deal">Vireo Growth → Planet 13</span></td>
+            <td>Planet 13's special shareholder meeting is confirmed for Dec. 10, 2026 (record date Oct. 29) to vote on the all-stock exchange (ratio 0.015383618 Vireo shares per Planet 13 share; Planet 13 holders would own roughly 9.38% of the combined company). Board unanimously recommends approval.</td>
+            <td><span class="tag t-ann">Meeting Confirmed</span></td>
+            <td class="date">Nov 3 '26</td>
+            <td>The Marijuana Herald</td>
+          </tr>
+          <tr>
+            <td><span class="deal">FLUENT Corp. — debt-for-equity settlement</span></td>
+            <td>Standing: ~US$5.7M of senior secured debt converts into 310,194,363 shares (≈11.8% of FLUENT's post-deal stock) at $0.0182/share, pending CSE approval, timed to close immediately before FLUENT's absorption into Vireo Growth. No incremental approval news found today.</td>
+            <td><span class="tag t-ann">Pending CSE Approval</span></td>
+            <td class="date">Nov 3 '26 (standing)</td>
+            <td>The Marijuana Herald</td>
+          </tr>
+          <tr>
+            <td><span class="deal">Vireo Growth ← The Cannabist Company (CO/IL/MA/NJ/WV assets)</span></td>
+            <td>Standing since the July agreement (up to $35M); no new closing or termination news found. Closings remain phased through 2026-2027 subject to state approvals.</td>
+            <td><span class="tag t-ann">Pending</span></td>
+            <td class="date">Jul '26 (standing)</td>
+            <td>The Globe and Mail</td>
+          </tr>
+          <tr>
+            <td><span class="deal">AYR Wellness — CCAA wind-down</span></td>
+            <td>Standing: no new development since the Oct. 1 Ohio asset-transfer close. Court-supervised wind-down continues under AlixPartners as monitor; common equity trades near zero.</td>
+            <td><span class="tag t-court">Distressed · Wind-Down Continuing</span></td>
+            <td class="date">Oct 1 '26 (standing)</td>
+            <td>ir.ayrwellness.com</td>
+          </tr>
+          <tr>
+            <td><span class="deal">March and Ash → Pacafi / Premier Group / PCF</span></td>
+            <td>Resolved this run: independent corroboration now dates this merger to roughly <b>September 2025</b>, not 2026 — the transaction was never a live, developing story in this desk's coverage window, and the unchanged DCC registry simply reflects that the deal long predates it.</td>
+            <td><span class="tag t-close">Closed · ~14 Months Old</span></td>
+            <td class="date">Sep '25 (resolved)</td>
+            <td>San Diego Business Journal (via search corroboration)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">
+      <span class="lab">Why it matters to PGP</span>
+      The disclosed Organigram/Aurora break-fee structure — a larger reverse fee ($38.4M) than forward fee ($25.2M) — is a useful template for PGP: it tilts economic risk toward the acquirer backing out, which is exactly the right asymmetry when a strategic investor (BAT) is underwriting the financing and the target's board needs real downside protection against a financing deal falling through. Separately, resolving the Premier Group/PCF date error is itself the lesson: a registry that never updates is not evidence of a live, slow-moving transaction — it can just as easily mean the underlying deal is already over a year old. PGP's own diligence on "stale registry" signals should corroborate a transaction date independently before treating it as current.
+    </div>
+  </section>
+
+  <!-- ============ RESCHEDULING DOCKET ============ -->
+  <section>
+    <p class="band">The Rescheduling Docket</p>
+    <div class="docket">
+      <div>
+        <h2 class="hed" style="font-size:22px;margin-bottom:6px">A quiet day in the ALJ record, but the hemp-THC clock tightens and a second MSO confirms its DEA registration</h2>
+        <p class="dek" style="margin:0 0 14px">No new filings in the stayed Schedule I-to-III case ahead of tomorrow's reply-brief deadline; Jushi becomes the latest MSO to attach its own ticker to the DEA's first-wave registration news, and this desk confirms the hemp-THC ban is a genuine two-tier deadline, not one date.</p>
+        <ul class="timeline">
+          <li class="done"><span class="d">Apr 23, 2026</span> DOJ order moves <b>medical / FDA-approved marijuana to Schedule III</b>; encourages Treasury to weigh 280E.</li>
+          <li class="done"><span class="d">Jul 15, 2026</span> Broader Schedule I→III hearings <b>conclude</b> before ALJ Derek Julius.</li>
+          <li class="done"><span class="d">Oct 29, 2026</span> Supplemental briefs <b>filed as scheduled</b>; the DEA argues the admitted GAO report deserves "no weight."</li>
+          <li class="done"><span class="d">Oct 30, 2026</span> DOJ/DEA grant the <b>first wave of federal registrations</b> to 900+ state-licensed medical dispensaries across seven states (AL, FL, MS, SD, TX, VA, WV); guidance gives newly-registered businesses until <b>Nov. 29</b> to realign supply-chain partnerships.</li>
+          <li class="done"><span class="d">Nov 2-3, 2026</span> <b>Trulieve, Vireo and Jushi confirm</b> federal DEA registrations covering some or all of their medical-state dispensaries, among the first company-specific confirmations of the first wave.</li>
+          <li class="done"><span class="d">Nov 3, 2026</span> <b>Massachusetts voters reject</b> Question 8, 76%-24% — the first successful statewide defense of adult-use legalization against an organized repeal effort.</li>
+        </ul>
+      </div>
+      <div class="nextbox">
+        <h4>What's Next on the Docket</h4>
+        <ol>
+          <li><b>Nov 4, 2026 (today)</b> — Green Thumb Industries Q3 2026 earnings call, 5:00pm ET.</li>
+          <li><b>Nov 5, 2026</b> — Trulieve, TerrAscend and Planet 13 report Q3 2026 earnings; rescheduling reply briefs due before ALJ Julius.</li>
+          <li><b>Nov 6, 2026</b> — Cresco Labs Q3 2026 earnings, pre-market.</li>
+          <li><b>Nov 10, 2026</b> — Vireo Growth Q3 2026 earnings.</li>
+          <li><b>Nov 12, 2026</b> — Ascend's Q3 2026 earnings call; also the first federal hemp-THC deadline — synthetic/converted cannabinoids (Delta-8 made from converted CBD, HHC, THC-O) lose hemp status with no further delay.</li>
+          <li><b>Nov 19, 2026</b> — DOJ's extended deadline to respond to TerrAscend's motion to dismiss the $8.36M 280E refund clawback suit.</li>
+          <li><b>Nov 29, 2026</b> — DEA's deadline for newly Schedule III-registered businesses to realign supply-chain partnerships.</li>
+          <li><b>Dec 4, 2026</b> — Curaleaf's tender deadline on its now-outbid, publicly restated Aurora offer.</li>
+          <li><b>Dec 10, 2026</b> — Planet 13's special meeting to vote on the Vireo Growth share exchange.</li>
+          <li><b>Dec 11, 2026</b> — the second federal hemp-THC deadline — naturally-occurring cannabinoid products under the "total THC" test (including THCa) and a 0.4mg-per-container cap take effect.</li>
+          <li><b>Dec 21, 2026</b> — TerrAscend's 280E motion-to-dismiss hearing.</li>
+        </ol>
+        <div class="callout" style="margin:14px 0 0;background:transparent;border-left-color:var(--pine)">
+          <span class="lab">PGP takeaway</span>
+          Massachusetts' landslide result should lower PGP's discount rate on "political risk" diligence for mature adult-use markets generally. Separately, the hemp-THC deadline is genuinely bifurcated — Nov. 12 for converted/synthetic cannabinoids, Dec. 11 for natural "total THC" products — meaning any hemp-adjacent revenue-line diligence needs to split exposure by cannabinoid chemistry, not treat Dec. 11 as the only relevant date.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ INDUSTRY HEADLINES ============ -->
+  <section>
+    <p class="band">Industry Headlines</p>
+    <div class="twocol">
+      <div class="hl">
+        <h3>Massachusetts voters crush the Question 8 repeal effort, 76%-24%, keeping adult-use cannabis fully legal</h3>
+        <p>The margin far exceeds pre-election polling and makes Massachusetts the first state to decisively defeat an organized legalization-repeal vote. <span class="src">STAT News · Marijuana Moment · NORML</span></p>
+      </div>
+      <div class="hl">
+        <h3>Curaleaf accuses Aurora's board of a fiduciary breach and keeps its hostile bid open through Dec. 4</h3>
+        <p>The same-day statement rejects Organigram's terms outright but neither raises nor withdraws Curaleaf's own now-outbid offer; TD Cowen separately downgrades Aurora to Sell while telling holders to tender. <span class="src">PR Newswire · The Marijuana Herald · Investing.com</span></p>
+      </div>
+      <div class="hl">
+        <h3>Curaleaf posts an 11% revenue gain and a narrower-than-expected loss in its Q3 2026 print</h3>
+        <p>$353 million in revenue, a 22% adjusted EBITDA margin and an EPS beat sent shares up 10.5% Tuesday, before Wednesday's broad sector pullback gave most of that back. <span class="src">ir.curaleaf.com</span></p>
+      </div>
+      <div class="hl">
+        <h3>Jushi Holdings becomes the latest MSO to confirm its own federal DEA registration</h3>
+        <p>The company says the registrations, covering its state-licensed medical operations, are "an important milestone" tied to October's first-wave Schedule III grants. <span class="src">GlobeNewswire</span></p>
+      </div>
+      <div class="hl">
+        <h3>Verano opens its 87th Florida dispensary and 164th store nationwide</h3>
+        <p>MÜV Fernandina Beach, in Nassau County, holds its ribbon-cutting Friday — the company's second store in that county. <span class="src">GlobeNewswire</span></p>
+      </div>
+      <div class="hl">
+        <h3>Green Thumb Industries reports Q3 2026 results after today's close</h3>
+        <p>The call is set for 5:00pm ET; figures were not yet available as this edition went to print, two days after the company opened its 27th Florida dispensary. <span class="src">StockTitan</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ NOTABLE 2 WEEKS ============ -->
+  <section>
+    <p class="band">Notable in the Past ~2 Weeks</p>
+    <ul class="notable">
+      <li><span class="dt">Nov 4</span><span>Massachusetts voters <b>crush the Question 8 repeal effort, 76%-24%</b>; Curaleaf <b>fires back at Aurora's board</b>, calling the Organigram deal a fiduciary breach while keeping its own bid open; TD Cowen <b>downgrades Aurora to Sell</b> but recommends tendering; MSOS gives back 3.56% of Tuesday's rally.</span></li>
+      <li><span class="dt">Nov 3</span><span>Organigram agrees to <b>acquire Aurora Cannabis for C$561M</b>, outbidding Curaleaf's hostile offer with BAT financing; Ascend <b>closes an $11M mortgage loan</b>; Curaleaf posts an <b>11% revenue gain</b> in Q3.</span></li>
+      <li><span class="dt">Nov 2</span><span>MSOS <b>jumps 6.6%</b> as the "AI reckoning" selloff fades; <b>Trulieve confirms its own DEA registrations</b> (+7.98%); Cresco discloses <b>94%+ approval</b> of its Delaware TopCo vote; FLUENT agrees to <b>convert $5.7M of debt into stock</b>.</span></li>
+      <li><span class="dt">Oct 30</span><span>MSOS <b>tumbles 5.39%</b> in a broad, cannabis-unrelated selloff even as DOJ/DEA quietly <b>grants first-wave Schedule III registrations</b> to 900+ medical dispensaries across seven states.</span></li>
+      <li><span class="dt">Oct 29</span><span>Verano posts its <b>narrowest quarterly loss in four years</b> on $212.4M revenue; Jushi's <b>wholesale revenue jumps 40%</b> to a record $9.7M.</span></li>
+      <li><span class="dt">Oct 26</span><span>Alberta Securities Commission <b>dismisses Curaleaf's bid</b> to halt Aurora's ATM program, a procedural win for Aurora that preceded the Organigram deal.</span></li>
+    </ul>
+  </section>
+
+  <!-- ============ SOURCES ============ -->
+  <section>
+    <p class="band">Sources — Reviewed Today</p>
+    <ul class="sources">
+      <li><a href="https://www.statnews.com/2026/11/04/massachusetts-marijuana-question-8-results-recreational-cannabis/">STAT News</a> — Massachusetts marijuana Question 8 results.</li>
+      <li><a href="https://www.marijuanamoment.net/massachusetts-voters-decide-to-keep-marijuana-sales-legal-rejecting-ballot-measure-bring-back-criminalization/">Marijuana Moment</a> — Massachusetts voters reject the marijuana-criminalization ballot measure.</li>
+      <li><a href="https://norml.org/blog/2026/11/04/massachusetts-voters-overwhelmingly-reject-ballot-proposal-seeking-to-repeal-marijuana-legalization">NORML</a> — Massachusetts voters overwhelmingly reject the repeal proposal.</li>
+      <li><a href="https://www.cannabisbusinesstimes.com/us-states/massachusetts/news/16424200/cannabis-legalization-prevails-in-massachusetts-repeal-question-soundly-defeated">Cannabis Business Times</a> — Cannabis legalization prevails in Massachusetts.</li>
+      <li><a href="https://www.tradingview.com/news/prnewswire:cef0deee54ee4:0-curaleaf-issues-statement-regarding-alternative-proposal-for-aurora-cannabis/">PR Newswire via TradingView</a> — Curaleaf issues statement regarding alternative proposal for Aurora Cannabis.</li>
+      <li><a href="https://themarijuanaherald.com/2026/11/curaleaf-slams-aurora-board-over-organigram-acquisition-says-its-takeover-bid-remains-active/">The Marijuana Herald</a> — Curaleaf slams Aurora board, says its takeover bid remains active.</li>
+      <li><a href="https://www.investing.com/news/analyst-ratings/td-cowen-downgrades-aurora-cannabis-stock-rating-on-organigram-deal-93CH-4997449">Investing.com</a> — TD Cowen downgrades Aurora Cannabis on the Organigram deal.</li>
+      <li><a href="https://ir.curaleaf.com/2026-11-03-Curaleaf-Reports-Third-Quarter-2026-Results-Record-Revenue-and-Robust-Profitability">ir.curaleaf.com</a> — Curaleaf reports third-quarter 2026 results.</li>
+      <li><a href="https://globenewswire.com/news-release/2026/11/03/3394723/0/en/jushi-holdings-inc-announces-receipt-of-dea-registrations-for-state-licensed-medical-cannabis-operations.html">GlobeNewswire</a> — Jushi Holdings announces receipt of DEA registrations.</li>
+      <li><a href="https://globenewswire.com/news-release/2026/11/04/3395172/0/en/verano-expands-florida-retail-footprint-to-87-locations-with-grand-opening-of-m%C3%BCv-fernandina-beach-the-company-s-164th-dispensary-nationwide.html">GlobeNewswire</a> — Verano expands Florida retail footprint to 87 locations with MÜV Fernandina Beach.</li>
+      <li><a href="https://www.prnewswire.com/news-releases/ascend-wellness-holdings-closes-11-million-non-dilutive-mortgage-loan-on-five-properties-across-three-states-302927049.html">PR Newswire</a> — Ascend Wellness Holdings closes $11 million non-dilutive mortgage loan.</li>
+      <li><a href="https://www.stocktitan.net/news/AAWH/awh-to-hold-third-quarter-2026-earnings-conference-call-on-thursday-jkh9jcelzwrb.html">StockTitan</a> — AWH to hold third-quarter 2026 earnings conference call.</li>
+      <li><a href="https://www.stocktitan.net/news/GTBIF/green-thumb-industries-to-report-third-quarter-2026-financial-f0c6jv3nbjwi.html">StockTitan</a> — Green Thumb Industries to report third-quarter 2026 financial results.</li>
+      <li><a href="https://themarijuanaherald.com/2026/11/planet-13-schedules-december-10-shareholder-vote-on-vireo-growth-acquisition/">The Marijuana Herald</a> — Planet 13 schedules December 10 shareholder vote on the Vireo Growth acquisition.</li>
+      <li><a href="https://themarijuanaherald.com/2026/11/fluent-to-convert-5-7-million-in-debt-into-shares-ahead-of-vireo-growth-acquisition/">The Marijuana Herald</a> — FLUENT to convert $5.7 million in debt into shares ahead of the Vireo Growth acquisition.</li>
+      <li><a href="https://ir.terrascend.com/news-events/press-releases/detail/292/terrascend-to-host-third-quarter-2026-earnings-conference-call">TerrAscend IR</a> — TerrAscend to host third-quarter 2026 earnings conference call.</li>
+      <li><a href="https://stockanalysis.com/etf/MSOS/">stockanalysis.com</a> — MSOS and constituent intraday quotes.</li>
+      <li><a href="https://real.cannabis.ca.gov/premises/pcf-of-ceres-modesto-c10-0001570">CA Dept. of Cannabis Control</a> — PCF of Ceres license status.</li>
+      <li><a href="https://real.cannabis.ca.gov/premises/x1-tracy-c10-0001121/">CA Dept. of Cannabis Control</a> — X1 Tracy (Altamont Wellness LLC) license status.</li>
+      <li><a href="https://www.tpg420.com">tpg420.com</a> — The Premier Group site, reviewed, footer and brand list.</li>
+      <li><a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001683541">SEC EDGAR</a> — Aurora Cannabis filings (6-K exhibits, Organigram arrangement agreement terms).</li>
+    </ul>
+  </section>
+
+  <!-- ============ COLOPHON ============ -->
+  <div class="colophon">
+    <p><b>About this edition.</b> Compiled Nov 4, 2026 from direct wire and filing checks (Ascend, Verano, Curaleaf, Aurora, Organigram, Cresco Labs, Green Thumb, Trulieve, TerrAscend, AYR, Vireo, Planet 13, Jushi, Glass House, FLUENT, Cannabist/Cansortium), a live intraday MSOS/constituent market-data pull taken roughly 3:15-3:40pm ET (ahead of the 4:00pm ET close) against Tuesday Nov 3's close, a CA DCC license-registry sweep for Premier Group/PCF, and individual searches for each priority name and MSO watchlist constituent covering the Nov 3-4 window. Items outside that window are labeled by date and carried in "Notable in the Past ~2 Weeks." Calendar items (earnings dates, votes, court/agency deadlines) are scheduled or recently-held events, not independently re-verified outcomes beyond what is cited. Green Thumb's Q3 2026 results were not yet available as of this edition's 5pm ET call time. Where data was thin or unreliable this run — Planet 13's, AYR's and Jushi's live quotes, and certain Organigram/Aurora termination-fee figures sourced from filing-exhibit search snippets rather than a direct SEDAR+ pull — this edition says so rather than estimating.</p>
+    <p><b>On imagery.</b> Editorial spot-art and status flags are original to this briefing; third-party news photographs are not reproduced (licensing). <b>Not investment advice.</b> Figures on "the tape" are event flags and best-available intraday snapshots, not certified closing quotes — verify pricing before client use.</p>
+    <p><b>The Cannabis Ledger</b> · PGP Capital Advisors · Deal-Desk Intelligence · Daily</p>
+  </div>
+
+</div>
+
+</body>
+</html>
