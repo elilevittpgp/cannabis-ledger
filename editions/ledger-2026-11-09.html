@@ -1,0 +1,560 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Cannabis Ledger — Monday, November 9, 2026</title>
+<style>
+  :root{
+    --paper:#f6f6f0; --paper-2:#efefe6; --panel:#eae9dd;
+    --ink:#16170f; --ink-soft:#474839; --ink-faint:#6d6e5d;
+    --hair:#cdcdbd; --rule:#16170f;
+    --pine:#1f4d2e; --pine-soft:#3c6b4a;
+    --gain:#1c7a48; --loss:#b0392c; --flag:#9a5b12;
+    --serif:Georgia,"Times New Roman",Times,serif;
+    --sans:"Helvetica Neue",Helvetica,Arial,sans-serif;
+    --mono:"SF Mono",ui-monospace,"Courier New",monospace;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --paper:#14150d; --paper-2:#1b1c12; --panel:#202115;
+      --ink:#ecece0; --ink-soft:#b0b1a0; --ink-faint:#84856f;
+      --hair:#34362a; --rule:#4a4c3c;
+      --pine:#77b389; --pine-soft:#9ccaa9;
+      --gain:#54c088; --loss:#e28a79; --flag:#d0a24e;
+    }
+  }
+  :root[data-theme="dark"]{
+      --paper:#14150d; --paper-2:#1b1c12; --panel:#202115;
+      --ink:#ecece0; --ink-soft:#b0b1a0; --ink-faint:#84856f;
+      --hair:#34362a; --rule:#4a4c3c;
+      --pine:#77b389; --pine-soft:#9ccaa9;
+      --gain:#54c088; --loss:#e28a79; --flag:#d0a24e;
+  }
+  :root[data-theme="light"]{
+      --paper:#f6f6f0; --paper-2:#efefe6; --panel:#eae9dd;
+      --ink:#16170f; --ink-soft:#474839; --ink-faint:#6d6e5d;
+      --hair:#cdcdbd; --rule:#16170f;
+      --pine:#1f4d2e; --pine-soft:#3c6b4a;
+      --gain:#1c7a48; --loss:#b0392c; --flag:#9a5b12;
+  }
+
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ink);color:var(--ink)}
+  .sheet{
+    max-width:1120px;margin:0 auto;background:var(--paper);
+    padding:clamp(18px,4vw,54px) clamp(16px,4vw,56px) 40px;
+    font-family:var(--serif);line-height:1.5;
+  }
+  @media(min-width:820px){ .sheet{box-shadow:0 0 0 1px var(--hair)} }
+
+  /* ---------- Masthead ---------- */
+  .flag-top{display:flex;justify-content:space-between;align-items:center;
+    font-family:var(--sans);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--ink-soft);padding-bottom:8px;gap:12px;flex-wrap:wrap}
+  .flag-top .edt{color:var(--pine);font-weight:700}
+  .rule-2{border:0;border-top:3px double var(--rule);margin:0}
+  .rule-1{border:0;border-top:1px solid var(--rule);margin:0}
+  .hair{border:0;border-top:1px solid var(--hair);margin:0}
+  .nameplate{display:flex;align-items:center;justify-content:center;gap:18px;
+    padding:14px 0 6px;text-align:center}
+  .nameplate svg{flex:none}
+  .nameplate h1{font-size:clamp(34px,7vw,68px);line-height:.92;margin:0;
+    font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+  .nameplate .kicker{display:block;font-family:var(--sans);font-weight:700;
+    font-size:clamp(9px,1.5vw,12px);letter-spacing:.34em;color:var(--pine);
+    text-transform:uppercase;margin-bottom:6px}
+  .folio{display:flex;justify-content:space-between;align-items:center;gap:10px;
+    font-family:var(--sans);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--ink-soft);padding:7px 2px;flex-wrap:wrap}
+  .folio b{color:var(--ink)}
+
+  /* ---------- Structure ---------- */
+  section{margin-top:26px}
+  .band{font-family:var(--sans);text-transform:uppercase;letter-spacing:.18em;
+    font-size:12px;font-weight:700;color:var(--pine);
+    display:flex;align-items:center;gap:12px;margin:0 0 12px}
+  .band::after{content:"";flex:1;border-top:1px solid var(--hair)}
+  h2.hed{font-family:var(--serif);font-weight:700;text-wrap:balance;margin:0}
+  .dek{color:var(--ink-soft);font-style:italic}
+  .byline{font-family:var(--sans);font-size:10.5px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--ink-faint)}
+
+  /* ---------- Lead ---------- */
+  .lead{display:grid;grid-template-columns:1fr;gap:26px}
+  @media(min-width:860px){.lead{grid-template-columns:1.9fr 1fr;gap:34px}}
+  .lead-main h2{font-size:clamp(26px,4.4vw,42px);line-height:1.04}
+  .lead-main .sub{font-size:clamp(15px,2vw,18px);margin:.5em 0 0;color:var(--ink-soft);font-style:italic}
+  .drop::first-letter{float:left;font-size:3.6em;line-height:.72;padding:6px 10px 0 0;
+    font-weight:700;color:var(--pine)}
+  .lead-main p{margin:.85em 0}
+  .rail{border-top:2px solid var(--rule);padding-top:10px}
+  .rail h3{font-family:var(--sans);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+    margin:0 0 10px;color:var(--ink)}
+  .tape{display:flex;flex-direction:column;gap:0}
+  .tape .row{display:flex;gap:10px;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--hair);
+    font-family:var(--sans);font-size:12.5px}
+  .tape .tk{font-family:var(--mono);font-weight:700;color:var(--pine);flex:none;min-width:58px;
+    font-variant-numeric:tabular-nums}
+  .tape .st{color:var(--ink-soft)}
+  .pill{display:inline-block;font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.06em;
+    text-transform:uppercase;padding:2px 7px;border-radius:2px;border:1px solid currentColor}
+  .up{color:var(--gain)} .down{color:var(--loss)} .watch{color:var(--flag)}
+
+  .callout{background:var(--panel);border-left:3px solid var(--pine);
+    padding:12px 16px;margin:16px 0;font-size:14px}
+  .callout .lab{font-family:var(--sans);font-weight:700;font-size:10.5px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--pine);display:block;margin-bottom:4px}
+  .callout.corr{border-left-color:var(--flag)}
+  .callout.corr .lab{color:var(--flag)}
+
+  /* ---------- Priority cards ---------- */
+  .cards{display:grid;grid-template-columns:1fr;gap:1px;background:var(--hair);
+    border:1px solid var(--hair)}
+  @media(min-width:760px){.cards{grid-template-columns:repeat(3,1fr)}}
+  .card{background:var(--paper);padding:16px 16px 18px}
+  .card .co{font-family:var(--serif);font-size:20px;font-weight:700;margin:0;line-height:1.1}
+  .card .tkr{font-family:var(--mono);font-size:12px;color:var(--pine);font-weight:700}
+  .card .status{font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.08em;
+    text-transform:uppercase;margin:8px 0 10px;display:inline-block}
+  .s-quiet{color:var(--ink-faint)} .s-live{color:var(--flag)}
+  .card ul{margin:6px 0 0;padding-left:16px;font-size:13px}
+  .card li{margin:6px 0}
+  .card .cal{font-family:var(--sans);font-size:11px;color:var(--ink-soft);margin-top:12px;
+    border-top:1px solid var(--hair);padding-top:8px}
+  .flagmark{color:var(--flag);font-weight:700}
+
+  /* ---------- Deal tracker ---------- */
+  .tablewrap{overflow-x:auto;border:1px solid var(--hair)}
+  table{border-collapse:collapse;width:100%;min-width:640px;font-size:13px}
+  thead th{background:var(--panel);font-family:var(--sans);font-size:10.5px;letter-spacing:.08em;
+    text-transform:uppercase;text-align:left;padding:10px 12px;border-bottom:2px solid var(--rule);color:var(--ink)}
+  tbody td{padding:11px 12px;border-bottom:1px solid var(--hair);vertical-align:top}
+  tbody tr:last-child td{border-bottom:0}
+  td .deal{font-weight:700}
+  td.date{font-family:var(--mono);font-size:12px;white-space:nowrap;color:var(--ink-soft);
+    font-variant-numeric:tabular-nums}
+  .tag{font-family:var(--sans);font-size:9.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+    padding:2px 6px;border-radius:2px;white-space:nowrap}
+  .t-close{background:rgba(28,122,72,.14);color:var(--gain)}
+  .t-ann{background:rgba(154,91,18,.16);color:var(--flag)}
+  .t-court{background:rgba(176,57,44,.14);color:var(--loss)}
+
+  /* ---------- Docket timeline ---------- */
+  .docket{display:grid;grid-template-columns:1fr;gap:22px}
+  @media(min-width:820px){.docket{grid-template-columns:1.3fr 1fr}}
+  .timeline{list-style:none;margin:0;padding:0;border-left:2px solid var(--rule)}
+  .timeline li{position:relative;padding:0 0 16px 20px;font-size:13.5px}
+  .timeline li::before{content:"";position:absolute;left:-6px;top:5px;width:10px;height:10px;
+    border-radius:50%;background:var(--paper);border:2px solid var(--pine)}
+  .timeline li.done::before{background:var(--pine)}
+  .timeline .d{font-family:var(--mono);font-size:11.5px;color:var(--pine);font-weight:700;
+    display:block;letter-spacing:.02em}
+  .nextbox{background:var(--panel);padding:16px;align-self:start}
+  .nextbox h4{font-family:var(--sans);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    margin:0 0 10px;color:var(--pine)}
+  .nextbox ol{margin:0;padding-left:18px;font-size:13px}
+  .nextbox li{margin:7px 0}
+
+  /* ---------- Headlines / two-col ---------- */
+  .twocol{columns:2;column-gap:34px;column-rule:1px solid var(--hair)}
+  @media(max-width:640px){.twocol{columns:1}}
+  .hl{break-inside:avoid;margin:0 0 15px;padding-bottom:14px;border-bottom:1px solid var(--hair)}
+  .hl h3{font-family:var(--serif);font-size:17px;font-weight:700;margin:0 0 4px;line-height:1.18}
+  .hl p{margin:0;font-size:13px;color:var(--ink-soft)}
+  .hl .src{font-family:var(--sans);font-size:10px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--pine);font-weight:700}
+
+  /* ---------- Notable ---------- */
+  .notable{list-style:none;margin:0;padding:0;
+    display:grid;grid-template-columns:1fr;gap:0}
+  .notable li{display:flex;gap:12px;align-items:baseline;padding:11px 0;border-bottom:1px solid var(--hair);
+    font-size:14px}
+  .notable .dt{font-family:var(--mono);font-size:11px;color:var(--pine);font-weight:700;flex:none;
+    min-width:52px;font-variant-numeric:tabular-nums}
+
+  /* ---------- Sources / colophon ---------- */
+  .sources{font-family:var(--sans);font-size:12px;color:var(--ink-soft);line-height:1.7}
+  .sources a{color:var(--pine)}
+  .sources li{margin:4px 0}
+  a{color:var(--pine);text-decoration:none;border-bottom:1px solid var(--hair)}
+  a:hover{border-bottom-color:var(--pine)}
+  a:focus-visible{outline:2px solid var(--pine);outline-offset:2px}
+  .colophon{margin-top:30px;border-top:3px double var(--rule);padding-top:14px;
+    font-family:var(--sans);font-size:11px;color:var(--ink-faint);line-height:1.7}
+  .colophon b{color:var(--ink-soft)}
+  /* ---------- Print / PDF: external-ready, controlled page breaks ---------- */
+  @media print{
+    :root{
+      --paper:#fff; --paper-2:#f3f3ea; --panel:#f0efe6;
+      --ink:#14150d; --ink-soft:#45463a; --ink-faint:#6b6c5b;
+      --hair:#c7c7b8; --rule:#14150d;
+      --pine:#1c4a2b; --pine-soft:#3a6748;
+      --gain:#1a7346; --loss:#a8362a; --flag:#8f5410;
+    }
+    @page{ size:Letter; margin:0.55in; }
+    body{ background:#fff; }
+    .sheet{ box-shadow:none; max-width:none; padding:0; }
+    /* keep headings attached to their content */
+    .band,h1,h2,h3,h4{ break-after:avoid; page-break-after:avoid; }
+    .nameplate,.folio{ break-inside:avoid; }
+    /* never split these mid-element across a page */
+    .card,.callout,.hl,.nextbox,.notable li,.timeline li,.tape .row,.colophon{
+      break-inside:avoid; page-break-inside:avoid; }
+    /* keep whole bordered boxes together — move to next page rather than split */
+    .rail,.tablewrap,.docket>div{ break-inside:avoid; page-break-inside:avoid; }
+    section{ break-inside:auto; }
+    /* stack multi-column layouts so nothing straddles a page edge */
+    .lead,.docket{ display:block; }
+    .lead-main{ margin-bottom:16px; }
+    .rail{ border-top:2px solid var(--rule); margin-top:14px; padding-top:10px; }
+    .cards{ display:block; border:0; background:transparent; }
+    .cards .card{ border:1px solid var(--hair); margin-bottom:9px; }
+    .twocol{ columns:1; }
+    /* tables: repeat header, keep rows intact */
+    table{ break-inside:auto; }
+    thead{ display:table-header-group; }
+    tr{ break-inside:avoid; page-break-inside:avoid; }
+    .tablewrap{ overflow:visible; }
+    a{ border-bottom:0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="sheet">
+
+  <!-- ============ MASTHEAD ============ -->
+  <div class="flag-top">
+    <span>Deal-Desk Intelligence</span>
+    <span class="edt">★ Daily Edition ★</span>
+    <span>Cannabis &amp; Hemp Capital Markets</span>
+  </div>
+  <hr class="rule-1">
+  <div class="nameplate">
+    <svg width="52" height="52" viewBox="0 0 52 52" aria-hidden="true">
+      <g fill="none" stroke="var(--pine)" stroke-width="1.6" stroke-linecap="round">
+        <path d="M26 47 V27"/>
+        <path d="M26 27 C26 14 20 7 12 4 C15 13 17 20 26 27"/>
+        <path d="M26 27 C26 14 32 7 40 4 C37 13 35 20 26 27"/>
+        <path d="M26 30 C24 20 16 15 6 15 C10 24 15 29 26 30"/>
+        <path d="M26 30 C28 20 36 15 46 15 C42 24 37 29 26 30"/>
+        <path d="M26 33 C25 27 19 24 11 25 C15 31 19 33 26 33"/>
+        <path d="M26 33 C27 27 33 24 41 25 C37 31 33 33 26 33"/>
+      </g>
+    </svg>
+    <div>
+      <span class="kicker">PGP Capital Advisors</span>
+      <h1>The Cannabis Ledger</h1>
+    </div>
+  </div>
+  <hr class="rule-2">
+  <div class="folio">
+    <span>Vol. I · Daily</span>
+    <span><b>Monday, November 9, 2026</b></span>
+    <span>Prepared for the Deal Team</span>
+  </div>
+  <hr class="rule-1">
+
+  <!-- ============ LEAD ============ -->
+  <section class="lead">
+    <div class="lead-main">
+      <p class="byline">Page One · The Big Story</p>
+      <h2 class="hed">Vireo Growth Closes Its FLUENT Buy to Reach 210 Dispensaries Across 10 States and Aurora Locks In a Dec. 23 Shareholder Vote on the Organigram Deal — MSOS Slides Roughly 4% in a Broad Monday Selloff</h2>
+      <p class="sub">A quiet weekend across the priority desk gives way to a Monday of deal mechanics, even as the sector gives back a chunk of last week's rally with no single catalyst behind the move.</p>
+      <p class="drop">Vireo Growth completed its acquisition of FLUENT Corp. on Nov. 9, delisting FLUENT from the CSE and OTCQB and pushing the combined company's footprint to 210 dispensaries across 10 states. The deal was financed through a debt-for-equity structure: roughly $35.7 million of FLUENT debt owed to lender Chicago Atlantic was equitized (the original $30 million balance plus an incremental $5.7 million conversion), lifting Chicago Atlantic's stake in Vireo to about 11.7% from 6.2%. Separately, Aurora Cannabis filed an SEC Form 6-K confirming its special virtual shareholder meeting to vote on Organigram Global's C$7.80-per-share acquisition is now set for <b>December 23, 2026</b>, with a <b>November 18, 2026</b> record date — the first firm date on a calendar previously described only as "on or before Dec. 23." Curaleaf's rival hostile tender remains open, unsweetened, through its own Dec. 4 deadline, with no amended terms filed since Nov. 3 despite CEO Boris Jordan's earlier pledge to "improve our bid substantially."</p>
+      <p>Those two deal-mechanics stories aside, Monday was dominated by a broad, largely unexplained sector pullback: MSOS closed around $4.07, down roughly 4% on the day and about 3.1% on the week, giving back a meaningful share of Friday's rally. Trulieve led liquid-name declines (-4.76%), Green Thumb and Curaleaf each fell more than 3%, and Cresco Labs stayed soft while still digesting Friday's Zacks downgrade to Hold; Glass House Brands fell another 8.65%, extending a slide that predates today and has now cut the stock roughly 81% since June. Vireo was the session's lone gainer among checked names (+3.83%), tracking its FLUENT close. Off the tape, Missouri's attorney general sued four retailers for allegedly marketing marijuana as hemp and promised more suits once the state's THC-potency law takes fuller effect Nov. 12; Texas's 15th Court of Appeals canceled December oral arguments in the state's own hemp-rules challenge after voters ousted all three sitting Republican justices, pushing the case into 2027 before the incoming Democratic bench; and Illinois's emergency motion to block its own Nov. 12 hemp-THC ban remained undecided as of this edition, three days before the deadline.</p>
+      <div class="callout">
+        <span class="lab">Why it matters to PGP</span>
+        Vireo's FLUENT close is a clean financing template worth benchmarking: a consolidator retiring acquired debt by rolling it into a rising lender equity stake, rather than raising fresh cash, is exactly the structure PGP should expect to see again as the roll-up reaches its next targets (Planet 13, the Cannabist asset package). On the Aurora front, the calendar is now concrete — a Nov. 18 record date, Curaleaf's Dec. 4 tender deadline, and Aurora's Dec. 23 vote — which gives PGP a specific, three-week window to watch whether Curaleaf's "substantial" bid talk turns into a filed offer or simply expires unexercised. And today's ~4% sector-wide drop, with no identifiable single catalyst across names that just reported strong quarters, is a reminder that MSO-exposed positions are currently carrying broad sector beta as much as any idiosyncratic company risk.
+      </div>
+    </div>
+
+    <aside class="rail">
+      <h3>On the Tape — Monday Snapshot</h3>
+      <div class="tape">
+        <div class="row"><span class="tk">MSOS</span><span class="st">$4.07, -4.0% day / -3.1% wk / -6.2% MTD <span class="pill down">Selloff</span></span></div>
+        <div class="row"><span class="tk">VREOF</span><span class="st">+3.83% to $6.78 — FLUENT close reaches 210 dispensaries, 10 states <span class="pill up">Gainer</span></span></div>
+        <div class="row"><span class="tk">TRLV</span><span class="st">-4.76% to $11.01 — broad risk-off, no distinct catalyst found <span class="pill down">Decliner</span></span></div>
+        <div class="row"><span class="tk">GLAS</span><span class="st">-8.65% to $1.90 — extends its post-Q3 slide, -81% since June <span class="pill down">Decliner</span></span></div>
+        <div class="row"><span class="tk">ACB</span><span class="st">-1.53% to $5.16 — muted; Dec. 23 vote and Nov. 18 record date now locked in <span class="pill watch">Deal Calendar</span></span></div>
+      </div>
+      <div class="callout" style="margin-top:16px">
+        <span class="lab">Desk note</span>
+        Figures are Monday Nov. 9 closing-range quotes (~4:00pm ET) from stockanalysis.com, cross-checked against Yahoo Finance for MSOS. Reliable 1-week moves were not obtainable for individual constituents this run — only for MSOS itself — and are reported as unavailable rather than estimated. Organigram (OGI), AYR Wellness (AYRWF) and Jushi (JUSHF) continue to show unreliable or stale quotes and are omitted.
+      </div>
+    </aside>
+  </section>
+
+  <!-- ============ PRIORITY COVERAGE ============ -->
+  <section>
+    <p class="band">Today's Roundup · Priority Coverage</p>
+    <div class="cards">
+      <div class="card">
+        <p class="co">Ascend Wellness</p>
+        <span class="tkr">CSE: AAWH.U · OTCQX: AAWH</span>
+        <div class="status s-quiet">● Quiet · no new items</div>
+        <ul>
+          <li>No new corporate release found since the Nov. 3 $10,995,000 CF Bank mortgage loan. No new Teamsters Local 916 contract or grievance news.</li>
+          <li>Reverse-split ratio (board's discretion, 1-for-10 to 1-for-50) remains unset, now 73 days after the Aug. 28 shareholder approval.</li>
+          <li>Q3 2026 earnings call remains confirmed for <b>Nov. 12, 2026, 5:00pm ET</b>. Stock traded around $0.3993 on OTCQX, down roughly 1.5%.</li>
+        </ul>
+        <div class="cal">Watch: whether a split ratio is set before Thursday's call.</div>
+      </div>
+
+      <div class="card">
+        <p class="co">Premier Group / PCF</p>
+        <span class="tkr">Private · California</span>
+        <div class="status s-quiet">● Quiet · registry question resolved</div>
+        <ul>
+          <li>No CA DCC enforcement action or Modesto Bee/Turlock Journal/Santa Cruz Sentinel item found in window.</li>
+          <li><b>Resolved:</b> the "PCF Of Ceres 2, Inc." license (C10-0001736), flagged in prior editions as an open registry question, shares the exact same address — 1442 Angie Ave, Modesto — as the original PCF of Ceres adult-use license (C10-0001570). It is a co-located medicinal-retail license at the same premises, not a second location.</li>
+        </ul>
+        <div class="cal">Housekeeping item closed; no new DCC action or local-press item this run.</div>
+      </div>
+
+      <div class="card">
+        <p class="co">Verano Holdings</p>
+        <span class="tkr">Cboe Canada · OTCQX: VRNO</span>
+        <div class="status s-quiet">● Quiet · tracks the broad move</div>
+        <ul>
+          <li>No new release found since the Nov. 4 MÜV Fernandina Beach opening; no further store-count milestone update surfaced.</li>
+          <li>No new financing, M&amp;A, leadership, or labor items beyond the standing $195M term loan (9.5%, matures 2029) and $20M buyback authorization (through April 2027).</li>
+          <li>Shares traded around $4.80, down roughly 3.0% on the day and 4-5% since last Friday's $5.02 close — tracking the broad sector move, not a company-specific item.</li>
+          <li>Tangential: Illinois is pulling low-dose hemp-derived THC beverages from licensed retail Nov. 12, ahead of the Dec. 11 federal deadline — relevant given Verano's own "Easy Landings" beverage line, but no company statement found.</li>
+        </ul>
+        <div class="cal">Watch: any Easy Landings-specific comment as Illinois's and the federal hemp-beverage deadlines approach.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SECTOR TAPE / MSOS ============ -->
+  <section>
+    <p class="band">The Sector Tape · MSOS &amp; the MSO Complex</p>
+    <div class="docket">
+      <div>
+        <h2 class="hed" style="font-size:22px;margin-bottom:6px">A broad risk-off Monday erases much of last week's rally, with Vireo's FLUENT close the one distinct bright spot</h2>
+        <p class="dek" style="margin:0 0 12px">MSOS closed around $4.07 (stockanalysis.com: $4.065), down roughly 4.0-4.1% on the day, about 3.1% on the week (Yahoo Finance 5-day read) and 6.2% month-to-date, on volume of roughly 5.0-5.1 million shares. Nearly every constituent fell in sympathy; no single sector-wide catalyst was identified.</p>
+        <div class="tablewrap" style="margin-bottom:14px">
+          <table>
+            <thead><tr><th>Name</th><th>Ticker</th><th>Day Move</th><th>Driver</th></tr></thead>
+            <tbody>
+              <tr><td><span class="deal">MSOS (ETF)</span></td><td class="date">MSOS</td><td class="date" style="color:var(--loss)">-4.0%</td><td>$4.07 at Monday's close (~4pm ET), down from Friday's $4.270; broad, largely unexplained sector pullback.</td></tr>
+              <tr><td><span class="deal">Vireo Growth</span></td><td class="date">VREOF</td><td class="date" style="color:var(--gain)">+3.83%</td><td>$6.78; the session's lone gainer among checked names, tracking its same-day FLUENT acquisition close.</td></tr>
+              <tr><td><span class="deal">Aurora Cannabis</span></td><td class="date">ACB</td><td class="date" style="color:var(--loss)">-1.53%</td><td>$5.16; muted despite confirming its Dec. 23 shareholder vote and Nov. 18 record date — largely priced in already.</td></tr>
+              <tr><td><span class="deal">TerrAscend</span></td><td class="date">TSNDF</td><td class="date" style="color:var(--loss)">-1.65%</td><td>$0.4562; smallest decline among the reporting MSOs, no fresh catalyst found.</td></tr>
+              <tr><td><span class="deal">Green Thumb</span></td><td class="date">GTBIF</td><td class="date" style="color:var(--loss)">-3.44%</td><td>$6.55; gives back part of last week's post-earnings pop.</td></tr>
+              <tr><td><span class="deal">Curaleaf</span></td><td class="date">CURLF</td><td class="date" style="color:var(--loss)">-4.06%</td><td>$8.99; standoff with Aurora/Organigram unchanged since Nov. 3.</td></tr>
+              <tr><td><span class="deal">Verano Holdings</span></td><td class="date">VRNO</td><td class="date" style="color:var(--loss)">-3.03%</td><td>$4.80; no company-specific news, tracks the broad sector move.</td></tr>
+              <tr><td><span class="deal">Cresco Labs</span></td><td class="date">CRLBF</td><td class="date" style="color:var(--loss)">-3.49%</td><td>$0.537; still digesting Friday's Zacks downgrade to Hold.</td></tr>
+              <tr><td><span class="deal">Trulieve</span></td><td class="date">TRLV</td><td class="date" style="color:var(--loss)">-4.76%</td><td>$11.01; the largest single-day decline among liquid watchlist names, no distinct catalyst found.</td></tr>
+              <tr><td><span class="deal">Planet 13</span></td><td class="date">PLNH</td><td class="date" style="color:var(--loss)">-2.42%</td><td>$0.0805; still has not reported Q3 2026.</td></tr>
+              <tr><td><span class="deal">Glass House Brands</span></td><td class="date">GLAS</td><td class="date" style="color:var(--loss)">-8.65%</td><td>$1.90; extends a sell-off that has cut the stock roughly 81% since June, pre-dating today's session.</td></tr>
+              <tr><td><span class="deal">Organigram Global</span></td><td class="date">OGI</td><td class="date" style="color:var(--ink-soft)">n/a</td><td>No single reliable quote this run — cross-checked venues conflicted (roughly -1% to +2%); omitted rather than estimated.</td></tr>
+              <tr><td><span class="deal">AYR Wellness</span></td><td class="date">AYRWF</td><td class="date" style="color:var(--ink-soft)">n/m</td><td>Quote continues to print a stale, non-economic level consistent with its ongoing CCAA wind-down.</td></tr>
+              <tr><td><span class="deal">Jushi Holdings</span></td><td class="date">JUSHF</td><td class="date" style="color:var(--ink-soft)">n/m</td><td>No reliable quote found this run; omitted rather than estimated.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="nextbox">
+        <h4>Live Data — This Edition</h4>
+        <p style="font-size:13px;margin:0 0 10px">Pull taken at/near Monday Nov. 9's close (~4:00pm ET) from stockanalysis.com, cross-checked against Yahoo Finance for MSOS. Per this desk's standing rule against fabricating figures, OGI, AYRWF and JUSHF are omitted rather than estimated given unreliable quotes.</p>
+        <div class="callout" style="margin:0;background:transparent;border-left-color:var(--pine)">
+          <span class="lab">Desk note</span>
+          Vireo's Q3 2026 earnings call is tomorrow, Nov. 10, 8:00am ET — its first since closing the FLUENT acquisition. Glass House reports Nov. 11; Ascend reports Nov. 12.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ M&A TRACKER ============ -->
+  <section>
+    <p class="band">M&amp;A &amp; Financing Deal Tracker</p>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>Deal</th><th>What</th><th>Status</th><th>Date</th><th>Source</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="deal">Vireo Growth → FLUENT Corp.</span></td>
+            <td>New: acquisition completed Nov. 9; FLUENT delisted from the CSE and OTCQB. Roughly $35.7M of FLUENT debt owed to Chicago Atlantic was equitized (original $30M plus an incremental $5.7M conversion), lifting Chicago Atlantic's Vireo stake to ~11.7% from 6.2%. Combined footprint reaches 210 dispensaries across 10 states.</td>
+            <td><span class="tag t-close">Closed</span></td>
+            <td class="date">Nov 9 '26</td>
+            <td>The Marijuana Herald · SEC EDGAR</td>
+          </tr>
+          <tr>
+            <td><span class="deal">Organigram Global → Aurora Cannabis</span></td>
+            <td>New: Aurora's SEC Form 6-K confirms its special virtual shareholder meeting on the C$7.80/share Organigram acquisition is set for <b>Dec. 23, 2026</b>, with a <b>Nov. 18, 2026</b> record date — the first firm date, replacing the prior "on or before Dec. 23" language. Deal terms (~C$561M fully diluted) unchanged.</td>
+            <td><span class="tag t-ann">Signed · Meeting Set Dec 23</span></td>
+            <td class="date">Nov 9 '26 (updated)</td>
+            <td>SEC 6-K · TipRanks</td>
+          </tr>
+          <tr>
+            <td><span class="deal">Curaleaf → Aurora Cannabis (hostile)</span></td>
+            <td>Standing: enhanced tender ($1.00 cash + 0.4013 CURLF shares per share) remains open through its Dec. 4, 11:59pm MT deadline. No amended terms filed since Nov. 3 despite CEO Boris Jordan's earlier pledge to "improve our bid substantially," conditioned on diligence access Aurora has not granted.</td>
+            <td><span class="tag t-court">Standoff · No New Terms</span></td>
+            <td class="date">Standing</td>
+            <td>Cannabis Business Times</td>
+          </tr>
+          <tr>
+            <td><span class="deal">Vireo Growth → Planet 13</span></td>
+            <td>Standing: all-stock exchange (0.015383618 Vireo shares per Planet 13 share); DEFM14A mailing commenced ~Nov. 2, record date Oct. 29, special shareholder meeting confirmed for Dec. 10, 2026, 12pm PT, virtual. Planet 13 has still not reported Q3 2026.</td>
+            <td><span class="tag t-ann">Meeting Confirmed · Dec 10</span></td>
+            <td class="date">Standing</td>
+            <td>SEC DEFM14A</td>
+          </tr>
+          <tr>
+            <td><span class="deal">Vireo Growth ← The Cannabist Company (CO/IL/MA/NJ/WV assets)</span></td>
+            <td>Standing since the July agreement (up to $35M). No new closing or termination news found. Cannabist remains in Chapter 15 bankruptcy with piecemeal asset sales continuing separately.</td>
+            <td><span class="tag t-ann">Pending</span></td>
+            <td class="date">Standing</td>
+            <td>Cannabis Business Times</td>
+          </tr>
+          <tr>
+            <td><span class="deal">AYR Wellness — CCAA wind-down</span></td>
+            <td>Standing: no new development found. Court-supervised wind-down continues; common equity trades at an effectively worthless, stale quote.</td>
+            <td><span class="tag t-court">Distressed · Wind-Down Continuing</span></td>
+            <td class="date">Standing</td>
+            <td>ir.ayrwellness.com</td>
+          </tr>
+          <tr>
+            <td><span class="deal">Ewing Morris → Decibel Cannabis (non-watchlist)</span></td>
+            <td>Standing: "best and final" hostile mini-tender at $2.09/share, a roughly $5.0M deal, extended to 5:00pm EST Nov. 13, 2026 — three days out.</td>
+            <td><span class="tag t-ann">Extended to Nov 13</span></td>
+            <td class="date">Nov 4 '26 (standing)</td>
+            <td>Newswire.ca</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">
+      <span class="lab">Why it matters to PGP</span>
+      Vireo's FLUENT close is a clean financing template worth benchmarking against PGP's own roll-up mandates: a consolidator retiring acquired debt by rolling it into a rising lender equity stake (Chicago Atlantic's Vireo position, now ~11.7%), rather than raising fresh cash, ahead of its next two targets closing (Planet 13, the Cannabist asset package). Aurora's now-concrete calendar — a Nov. 18 record date, Curaleaf's Dec. 4 tender deadline, and a Dec. 23 vote — gives PGP a specific three-week window to watch whether Curaleaf's "substantial" bid rhetoric becomes a filed offer or simply lapses unexercised.
+    </div>
+  </section>
+
+  <!-- ============ RESCHEDULING DOCKET ============ -->
+  <section>
+    <p class="band">The Rescheduling Docket</p>
+    <div class="docket">
+      <div>
+        <h2 class="hed" style="font-size:22px;margin-bottom:6px">The ALJ's record is closed with no recommendation timeline, the DEA previews a Schedule III production-quota framework, and two state hemp-ban fights head toward Thursday's deadline from opposite positions</h2>
+        <p class="dek" style="margin:0 0 14px">Missouri's attorney general opens a new enforcement front as her state's ban nears; Illinois's own ban fight remains undecided three days out; and Texas's hemp-rules court fight is pushed into 2027 by an election result.</p>
+        <ul class="timeline">
+          <li class="done"><span class="d">Nov 5-6, 2026</span> Reply briefs close the evidentiary record before Chief ALJ Derek Julius in the Schedule I-to-III case; the DEA argues the admitted GAO report deserves "no weight," opponents argue it shows "fatal flaws." No recommendation timeline has been announced.</li>
+          <li class="done"><span class="d">Nov 4-6, 2026</span> Missouri Attorney General Catherine Hanaway's office sues four retailers (including shops in Aurora and Independence, MO) for allegedly marketing marijuana as hemp, and says to expect "more lawsuits" as the state's THC-potency law takes fuller effect Nov. 12 — the same week a federal judge cleared that ban to stand.</li>
+          <li class="done"><span class="d">Nov 6, 2026</span> Texas's 15th Court of Appeals cancels Dec. 8 oral arguments in the state's hemp-THC rules challenge, days after voters ousted all three sitting Republican justices; the case will now be heard by the incoming Democratic bench in 2027, with no new date yet set.</li>
+          <li class="done"><span class="d">Nov 9, 2026</span> As of this edition, Illinois's emergency motion for a TRO/preliminary injunction against its own Nov. 12 Hemp Act ban remains undecided; local coverage describes Chicago-area hemp retailers still bracing for the deadline absent a ruling.</li>
+          <li class="done"><span class="d">Nov 9, 2026</span> The DEA's draft 2027 annual production-quota notice confirms the agency is developing a <b>separate</b> quota framework for Schedule III marijuana and marijuana extracts, distinct from the Schedule I quotas it proposes holding flat at 2026 levels; no publication date has been set for the Schedule III proposal itself.</li>
+        </ul>
+      </div>
+      <div class="nextbox">
+        <h4>What's Next on the Docket</h4>
+        <ol>
+          <li><b>Nov 10, 2026</b> — Vireo Growth's Q3 2026 earnings call, 8:00am ET — its first since closing FLUENT.</li>
+          <li><b>Nov 11, 2026</b> — Glass House Brands' Q3 2026 earnings call (final, audited figures).</li>
+          <li><b>Nov 12, 2026</b> — Ascend's Q3 2026 earnings call; Missouri's state THC ban takes fuller effect; Illinois's own ban also takes effect unless its TRO motion succeeds first; first federal hemp-THC deadline (synthetic/converted cannabinoids lose hemp status).</li>
+          <li><b>Nov 13, 2026</b> — Ewing Morris's extended tender deadline for Decibel Cannabis.</li>
+          <li><b>Nov 18, 2026</b> — Record date for Aurora's special shareholder meeting on the Organigram acquisition.</li>
+          <li><b>Nov 19, 2026</b> — DOJ's deadline to reply to TerrAscend's motion to dismiss the $8.36M 280E refund clawback suit.</li>
+          <li><b>Dec 4, 2026</b> — Curaleaf's tender deadline on its Aurora offer.</li>
+          <li><b>Dec 10, 2026</b> — Planet 13's special meeting to vote on the Vireo Growth share exchange.</li>
+          <li><b>Dec 11, 2026</b> — second federal hemp-THC deadline (naturally-occurring cannabinoids under the "total THC" test, including THCa, plus a 0.4mg-per-container cap).</li>
+          <li><b>Dec 21, 2026</b> — TerrAscend's 280E motion-to-dismiss hearing.</li>
+          <li><b>Dec 23, 2026</b> — Aurora's special shareholder meeting on the Organigram acquisition (now a firm date).</li>
+          <li><b>January 2027</b> — targeted close of the Organigram/Aurora transaction; Texas's hemp-rules case to be reset before the incoming 15th Court of Appeals bench.</li>
+        </ol>
+        <div class="callout" style="margin:14px 0 0;background:transparent;border-left-color:var(--pine)">
+          <span class="lab">PGP takeaway</span>
+          Three deadlines converge within the next 72 hours (Thursday, Nov. 12) under three different legal theories — a federal synthetic-cannabinoid cutoff, a Missouri ban now cleared by a court, and an Illinois ban still contested in one — and PGP should treat each as a separate diligence question rather than a single "hemp ban" event. Separately, Aurora's merger calendar is now dated end to end (Nov. 18 record date, Dec. 4 tender deadline, Dec. 23 vote), giving PGP a concrete window in which to judge whether Curaleaf's bid talk converts to paper.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ INDUSTRY HEADLINES ============ -->
+  <section>
+    <p class="band">Industry Headlines</p>
+    <div class="twocol">
+      <div class="hl">
+        <h3>Vireo Growth completes its FLUENT acquisition, reaching 210 dispensaries across 10 states</h3>
+        <p>The debt-for-equity close delists FLUENT from the CSE and OTCQB and lifts lender Chicago Atlantic's Vireo stake to roughly 11.7%. <span class="src">The Marijuana Herald · SEC EDGAR</span></p>
+      </div>
+      <div class="hl">
+        <h3>Aurora Cannabis locks in a Dec. 23 shareholder vote on the Organigram deal</h3>
+        <p>A Nov. 18 record date and Dec. 23 meeting date are now set by SEC filing — the merger calendar's first firm dates, arriving as Curaleaf's rival hostile tender runs to its own Dec. 4 deadline. <span class="src">SEC 6-K · TipRanks</span></p>
+      </div>
+      <div class="hl">
+        <h3>Missouri's attorney general sues four retailers over marijuana marketed as hemp</h3>
+        <p>AG Catherine Hanaway says to expect "more lawsuits" as the state's THC-potency law takes fuller effect Nov. 12, days after a federal judge cleared the underlying ban to stand. <span class="src">Missouri Independent</span></p>
+      </div>
+      <div class="hl">
+        <h3>Texas's 15th Court of Appeals cancels its hemp-rules oral arguments after an election sweep</h3>
+        <p>With all three sitting Republican justices ousted Nov. 3, the state's challenge to new hemp-THC licensing rules will now be heard by the incoming Democratic bench in 2027. <span class="src">Texas Tribune · Marijuana Moment</span></p>
+      </div>
+      <div class="hl">
+        <h3>A broad Monday selloff knocks MSOS down roughly 4%, with no single sector-wide catalyst</h3>
+        <p>Nearly every watchlist constituent fell in sympathy; Vireo Growth was the lone gainer among checked names, tracking its same-day FLUENT close. <span class="src">stockanalysis.com · Yahoo Finance</span></p>
+      </div>
+      <div class="hl">
+        <h3>The DEA previews a separate 2027 production-quota framework for Schedule III marijuana</h3>
+        <p>The agency's draft notice confirms a distinct quota track for Schedule III marijuana and extracts is in development, apart from Schedule I quotas it proposes holding flat — with no publication date yet set. <span class="src">The Marijuana Herald · Marijuana Moment</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ NOTABLE 2 WEEKS ============ -->
+  <section>
+    <p class="band">Notable in the Past ~2 Weeks</p>
+    <ul class="notable">
+      <li><span class="dt">Nov 9</span><span>Vireo Growth <b>completes its FLUENT acquisition</b> (210 dispensaries, 10 states); Aurora <b>locks in a Dec. 23 shareholder vote</b> (Nov. 18 record date) on the Organigram deal; MSOS <b>slides ~4%</b> in a broad, uncaused Monday selloff.</span></li>
+      <li><span class="dt">Nov 6</span><span>Aurora <b>cancels its investor call</b>, Cresco <b>misses on revenue and is downgraded</b>, TerrAscend <b>beats</b>, MSOS <b>rallies 3.4%</b>; Missouri's AG <b>sues four retailers</b> over marijuana marketed as hemp; Texas's hemp-rules court fight is <b>pushed into 2027</b> after an election sweep.</span></li>
+      <li><span class="dt">Nov 5</span><span>Curaleaf's Boris Jordan <b>signals a "substantial"</b> higher Aurora bid, conditioned on diligence access; Green Thumb <b>beats on revenue, misses on EPS</b>; Trulieve <b>misses revenue, beats on EPS</b>; Texas voters <b>unseat hemp-crackdown architect Dan Patrick</b>.</span></li>
+      <li><span class="dt">Nov 4</span><span>Massachusetts voters <b>crush the Question 8 repeal effort, 76%-24%</b>; Curaleaf <b>fires back at Aurora's board</b>, calling the Organigram deal a fiduciary breach; TD Cowen <b>downgrades Aurora to Sell</b> but recommends tendering.</span></li>
+      <li><span class="dt">Nov 3</span><span>Organigram agrees to <b>acquire Aurora Cannabis for C$561M</b>, outbidding Curaleaf's hostile offer with BAT financing; Ascend <b>closes an $11M mortgage loan</b>; Curaleaf posts an <b>11% revenue gain</b> in Q3.</span></li>
+      <li><span class="dt">Nov 2</span><span>MSOS <b>jumps 6.6%</b> as the "AI reckoning" selloff fades; <b>Trulieve confirms its own DEA registrations</b> (+7.98%); Cresco discloses <b>94%+ approval</b> of its Delaware TopCo vote; FLUENT agrees to <b>convert debt into stock</b> ahead of its Vireo absorption.</span></li>
+    </ul>
+  </section>
+
+  <!-- ============ SOURCES ============ -->
+  <section>
+    <p class="band">Sources — Reviewed Today</p>
+    <ul class="sources">
+      <li><a href="https://themarijuanaherald.com/2026/11/vireo-growth-completes-fluent-acquisition-expands-national-footprint-to-210-marijuana-dispensaries-across-10-states/">The Marijuana Herald</a> — Vireo Growth completes FLUENT acquisition, expands national footprint to 210 dispensaries across 10 states.</li>
+      <li><a href="https://themarijuanaherald.com/2026/11/aurora-cannabis-sets-december-23-shareholder-vote-on-c561-million-organigram-acquisition-new-sec-filing-confirms/">The Marijuana Herald</a> — Aurora Cannabis sets December 23 shareholder vote on C$561 million Organigram acquisition.</li>
+      <li><a href="https://www.tipranks.com/news/company-announcements/aurora-cannabis-announces-special-meeting-and-november-18-record-date">TipRanks</a> — Aurora Cannabis announces special meeting and November 18 record date.</li>
+      <li><a href="https://www.cannabisbusinesstimes.com/business-issues-benchmarks/mergers-and-acquisitions/news/16424372/curaleaf-issues-statement-regarding-alternative-proposal-for-aurora-cannabis">Cannabis Business Times</a> — Curaleaf issues statement regarding alternative proposal for Aurora Cannabis; standing hostile-tender terms.</li>
+      <li><a href="https://www.sec.gov/Archives/edgar/data/0001813452/000110465926121478/tm2621776-7_defm14a.htm">SEC EDGAR (DEFM14A)</a> — Vireo Growth / Planet 13 definitive merger proxy; meeting and record-date mechanics.</li>
+      <li><a href="https://www.newswire.ca/news-releases/ewing-morris-announces-revised-all-cash-offer-to-acquire-up-to-2-392-345-shares-of-decibel-cannabis-company-inc--801915499.html">Newswire.ca</a> — Ewing Morris raises hostile mini-tender for Decibel Cannabis to $2.09/share, extends to Nov. 13.</li>
+      <li><a href="https://missouriindependent.com/2026/11/06/missouri-ag-promises-more-lawsuits-against-retailers-selling-illegal-marijuana/">Missouri Independent</a> — Missouri AG promises "more lawsuits" against retailers selling illegal marijuana.</li>
+      <li><a href="https://www.ky3.com/2026/11/04/missouri-attorney-general-sues-lawrence-county-retailer-3-others-over-unregulated-thc-products-defeats-federal-court-challenge/">KY3</a> — Missouri Attorney General sues four retailers over unregulated THC products, defeats federal court challenge.</li>
+      <li><a href="https://www.texastribune.org/2026/11/06/texas-15th-court-appeals-arguments-cancel-hemp/">Texas Tribune</a> — Texas appeals court cancels oral arguments in hemp rules case.</li>
+      <li><a href="https://www.marijuanamoment.net/texas-court-cancels-arguments-in-case-challenging-hemp-rules-after-democratic-justices-win-election/">Marijuana Moment</a> — Texas court cancels arguments in case challenging hemp rules after Democratic justices win election.</li>
+      <li><a href="https://www.wbez.org/business/2026/11/07/chicago-businesses-bracing-state-hemp-thc-ban">WBEZ Chicago</a> — How Chicago businesses are bracing for the state's hemp ban, with the TRO motion still undecided.</li>
+      <li><a href="https://themarijuanaherald.com/2026/11/dea-proposes-2027-marijuana-production-quotas-confirms-separate-schedule-iii-limits-are-being-developed/">The Marijuana Herald</a> — DEA proposes 2027 marijuana production quotas, confirms separate Schedule III limits are being developed.</li>
+      <li><a href="https://www.marijuanamoment.net/dea-boosts-psychedelic-production-quotas-for-2027-while-previewing-separate-marijuana-proposal-under-rescheduling/">Marijuana Moment</a> — DEA boosts psychedelic production quotas for 2027 while previewing separate marijuana proposal under rescheduling.</li>
+      <li><a href="https://real.cannabis.ca.gov/premises/pcf-of-ceres-modesto-c10-0001570">CA Dept. of Cannabis Control</a> — PCF of Ceres license status.</li>
+      <li><a href="https://real.cannabis.ca.gov/premises/pcf-of-ceres-2-inc-modesto-c10-0001736/">CA Dept. of Cannabis Control</a> — "PCF Of Ceres 2, Inc." registry entry, now resolved as a co-located medicinal-retail license at the same address.</li>
+      <li><a href="https://stockanalysis.com/etf/MSOS/">stockanalysis.com</a> — MSOS and constituent quotes, Monday Nov. 9 close.</li>
+      <li><a href="https://finance.yahoo.com/quote/MSOS/">Yahoo Finance</a> — MSOS 5-day and 1-month cross-check.</li>
+      <li><a href="https://www.marketbeat.com/instant-alerts/price-trulieve-cannabis-nyse-trlv-stock-falls-46-whats-next-2026-11-09/">MarketBeat</a> — Trulieve Cannabis stock falls 4.6%, Nov. 9 intraday note.</li>
+      <li><a href="https://www.dailypolitical.com/2026/11/07/cresco-labs-otcmktscrlbf-cut-to-hold-at-zacks-research.html">Daily Political</a> — Cresco Labs cut to Hold at Zacks Research.</li>
+      <li><a href="https://www.stocktitan.net/news/AAWH/ascend-wellness-holdings-closes-11-million-non-dilutive-mortgage-4orhiq633tqp.html">StockTitan</a> — Ascend Wellness Holdings closes $11 million non-dilutive mortgage loan.</li>
+      <li><a href="https://www.stocktitan.net/news/AAWH/awh-to-hold-third-quarter-2026-earnings-conference-call-on-thursday-jkh9jcelzwrb.html">StockTitan</a> — AWH to hold third-quarter 2026 earnings conference call Nov. 12.</li>
+      <li><a href="https://www.globenewswire.com/news-release/2026/11/04/3395172/0/en/verano-expands-florida-retail-footprint-to-87-locations-with-grand-opening-of-m%C3%BCv-fernandina-beach-the-company-s-164th-dispensary-nationwide.html">GlobeNewswire</a> — Verano expands Florida retail footprint to 87 locations with MÜV Fernandina Beach.</li>
+    </ul>
+  </section>
+
+  <!-- ============ COLOPHON ============ -->
+  <div class="colophon">
+    <p><b>About this edition.</b> Compiled Nov 9, 2026 from direct wire and filing checks (Ascend, Verano, Curaleaf, Aurora, Organigram, Vireo, FLUENT, Planet 13, Green Thumb, Trulieve, Cresco Labs, TerrAscend, AYR, Jushi, Cannabist, Glass House, Decibel), a same-day MSOS/constituent market-data pull taken at/near Monday's close against last Friday's (Nov 6) levels, a CA DCC license-registry sweep for Premier Group/PCF that resolves the "PCF Of Ceres 2" question left open since the Nov 6 edition, and individual searches for each priority name and MSO watchlist constituent covering the Nov 6 (evening)-9 window. A verification pass corrected an initial figure on the Vireo/FLUENT debt-equitization amount (the debt converted was roughly $35.7M in total, not the $5.7M incremental conversion alone) before publication. Items outside the review window are labeled by date and carried in "Notable in the Past ~2 Weeks." Calendar items (earnings dates, votes, court/agency deadlines) are scheduled or recently-filed events, not independently re-verified outcomes beyond what is cited. Where data was thin or unreliable this run — Organigram's, AYR's and Jushi's live quotes, and per-constituent 1-week price moves beyond MSOS itself — this edition says so rather than estimating.</p>
+    <p><b>On imagery.</b> Editorial spot-art and status flags are original to this briefing; third-party news photographs are not reproduced (licensing). <b>Not investment advice.</b> Figures on "the tape" are event flags and best-available closing-range snapshots, not certified closing quotes — verify pricing before client use.</p>
+    <p><b>The Cannabis Ledger</b> · PGP Capital Advisors · Deal-Desk Intelligence · Daily</p>
+  </div>
+
+</div>
+
+</body>
+</html>
